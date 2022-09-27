@@ -12,8 +12,8 @@ const mutations = {
 }
 
 export default {
-    namespaced: true,
-    state,
-    actions,
-    mutations
+  namespaced: true,
+  state,
+  actions,
+  mutations
 }

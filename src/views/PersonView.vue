@@ -1,5 +1,5 @@
 <template>
-  <div class="map">
+  <div class="person">
     <button @click="toMap">切换</button>
     <span>PerSoneView</span>
   </div>
@@ -17,3 +17,11 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.person {
+  height: 100vh;
+  width: 100vw;
+  background-color: red;
+}
+</style>
