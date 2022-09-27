@@ -1,29 +1,44 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+//引入vue-router路由插件
+import VueRouter from "vue-router";
+//引入Vue
+import Vue from "vue";
+// 引入路由
+import routes from "./routes";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+// 重写了一下 router 2个方法，防止操作不当页面直接挂掉，不影响正常操作
+let originPush = VueRouter.prototype.push;
+let originReplace = VueRouter.prototype.replace;
+
+VueRouter.prototype.push = function (location, resolve, reject) {
+  if (resolve && reject) {
+    originPush.call(this, location, resolve, reject);
+  } else {
+    originPush.call(
+      this,
+      location,
+      () => { },
+      () => { }
+    );
   }
-]
+};
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+VueRouter.prototype.replace = function (location, resolve, reject) {
+  if (resolve && reject) {
+    originReplace.call(this, location, resolve, reject);
+  } else {
+    originReplace.call(
+      this,
+      location,
+      () => { },
+      () => { }
+    );
+  }
+};
 
-export default router
+let router = new VueRouter({
+  routes,
+});
+
+export default router;
