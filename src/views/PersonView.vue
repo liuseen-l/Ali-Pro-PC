@@ -2,26 +2,8 @@
   <div class="person">
     <div id="person-scene"></div>
     <div class="person-plane">
-      <form>
-        <!-- 账号输入框 -->
-        <div class="user-box">
-          <input type="text" name="" required="" />
-          <label for="">UserName</label>
-        </div>
-        <!-- 密码输入框 -->
-        <div class="user-box">
-          <input type="password" name="" required="" />
-          <label for="">password</label>
-        </div>
-        <!-- 提交按钮 -->
-        <a href="">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          Submit
-        </a>
-      </form>
+      <!-- 登录 注册区域 -->
+      <router-view></router-view>
     </div>
     <div class="person-ground"></div>
   </div>
@@ -426,38 +408,6 @@ export default {
       renderer.render(scene, camera);
     },
   },
-  // // 获取验证码
-  // async getValidateCodeHandle() {
-  //   // 请求获取验证码 并设置验证码的图片以及验证码token
-  //   state.codeSrc = "";
-  //   state.codetoken = "";
-  // },
-
-  // // 提交表单
-  // submitForm() {
-  //   const form = unref(formRef);
-  //   if (!form) return;
-  //   form.validate((valid) => {
-  //     if (valid) {
-  //       submitHandle();
-  //     } else {
-  //       ElMessage.warning({
-  //         message: "随便输入用户名、密码、验证码即可登陆",
-  //         type: "warning",
-  //       });
-  //     }
-  //   });
-  // },
-
-  // 提交请求
-  // async submitHandle() {
-  //   const params = {
-  //     password: formField.pass,
-  //     username: formField.user,
-  //     verifyCode: formField.code,
-  //   };
-  //   // 提交登陆请求
-  // },
 };
 </script>
 
@@ -475,196 +425,12 @@ export default {
   .person-plane {
     position: absolute;
     z-index: 9999;
-    width: 700px;
+    width: 500px;
     height: 500px;
     right: 0;
     bottom: 0;
     transform: translate(-30%, -40%);
-    // background-color: red;
-    /* 内边距 */
-    padding: 40px;
-    /* 背景颜色 */
-    background: rgba(0, 0, 0, 0.6);
-    /* 标准盒模型 */
-    box-sizing: border-box;
-    /* 设置盒子阴影 */
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-    /* 边框圆角 */
-    border-radius: 10px;
 
-    .user-box {
-      /* 账号输入框相对定位 */
-      position: relative;
-    }
-
-    .user-box input {
-      width: 100%;
-      padding: 10px 0;
-      font-size: 16px;
-      color: #fff;
-      margin-bottom: 30px;
-      /* 去掉所有边框 */
-      border: none;
-      /* 保留下边框 */
-      border-bottom: 1px solid #fff;
-      outline: none;
-      /* 背景颜色透明 */
-      background: transparent;
-    }
-
-    .user-box label {
-      /* 绝对定位 */
-      position: absolute;
-      top: 0;
-      left: 0;
-      /* 内边距 */
-      padding: 10px 0;
-      font-size: 16px;
-      color: #fff;
-      pointer-events: none;
-      /* 过度效果 */
-      transition: 0.5s;
-    }
-    /* 输入框鼠标聚焦\移开时 */
-    /* 兄弟选择器 */
-    .user-box input:focus ~ label,
-    .user-box input:valid ~ label {
-      /* 这里的效果时当鼠标放在输入框时,username和password会有一个位置的挪动 */
-      top: -20px;
-      left: 0;
-      color: #689ee9;
-      font-size: 12px;
-    }
-
-    form a {
-      /* 相对定位 */
-      position: relative;
-      /* 行内块元素 */
-      display: inline-block;
-      /* 内边距 */
-      padding: 10px 20px;
-      font-size: 16px;
-      color: #689ee9;
-      /* 去掉a 的下划线 */
-      text-decoration: none;
-      /* 文字间距增大 */
-      letter-spacing: 4px;
-      overflow: hidden;
-      /* 过渡效果 */
-      transition: 0.5s;
-      margin-top: 40px;
-      /* 全部转大写 */
-      text-transform: uppercase;
-    }
-    /* 鼠标移上去会有一个发光的效果 */
-    a:hover {
-      background: #689ee9;
-      color: #fff;
-      border-radius: 5px;
-      /* 盒子阴影 */
-      box-shadow: 0 0 5px #689ee9, 0 0 25px #689ee9, 0 0 50px #689ee9,
-        0 0 100px #06003b;
-    }
-    /* 开始画动画 */
-
-    a span {
-      /* 绝对定位 */
-      position: absolute;
-      /* 块元素 */
-      display: block;
-    }
-
-    /* 第一根线,上侧,从左至右 */
-    a span:nth-child(1) {
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 2px;
-      /* 背景颜色 */
-      background: linear-gradient(90deg, transparent, #689ee9);
-      /* 动画   持续1S  匀速,无限次运行 */
-      animation: an-1 1s linear infinite;
-    }
-
-    /* 第一根线,上侧,从左至右 */
-    @keyframes an-1 {
-      0% {
-        left: -100%;
-      }
-      50%,
-      100% {
-        left: 100%;
-      }
-    }
-
-    /* 第三根线,下侧,从右至左 */
-    a span:nth-child(3) {
-      bottom: 0;
-      right: -100%;
-      width: 100%;
-      height: 2px;
-      /* 背景颜色 */
-      background: linear-gradient(270deg, transparent, #689ee9);
-      /* 动画   持续1S  匀速,无限次运行 */
-      animation: an-3 1s linear infinite;
-      animation-delay: 0.5s;
-    }
-    /* 第三根线,下侧,从右至左 */
-    @keyframes an-3 {
-      0% {
-        right: -100%;
-      }
-      50%,
-      100% {
-        right: 100%;
-      }
-    }
-    /* 第二根先,右侧,从上至下 */
-
-    a span:nth-child(2) {
-      top: -100%;
-      right: 0;
-      height: 100%;
-      width: 2px;
-      background: linear-gradient(180deg, transparent, #689ee9);
-      /* 动画 */
-      animation: an-2 1s linear infinite;
-      /* 延迟 */
-      animation-delay: 0.25s;
-    }
-    /* 第二根先,右侧,从上至下 */
-    @keyframes an-2 {
-      0% {
-        top: -100%;
-      }
-      50%,
-      100% {
-        top: 100%;
-      }
-    }
-
-    /* 第四根线,左侧,从下至上 */
-    a span:nth-child(4) {
-      bottom: -100%;
-      left: 0;
-      height: 100%;
-      width: 2px;
-      background: linear-gradient(360deg, transparent, #689ee9);
-      /* 动画 */
-      animation: an-4 1s linear infinite;
-      /* 延迟 */
-      animation-delay: 0.75s;
-    }
-    /* 第四根线,左侧,从下至上 */
-    @keyframes an-4 {
-      0% {
-        bottom: -100%;
-      }
-      50%,
-      100% {
-        bottom: 100%;
-      }
-    }
   }
   .person-ground {
     position: absolute;

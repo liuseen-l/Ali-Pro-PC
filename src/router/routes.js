@@ -2,10 +2,11 @@
 export default [
   {
     path: "/",
-    redirect: "/map",
+    redirect: "/person",
   },
   {
     path: '/map',
+    name: 'map',
     component: () => import('../views/MapView.vue'),
     children: [
       {
@@ -25,9 +26,25 @@ export default [
     ]
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/PersonView.vue')
+    path: '/person',
+    name: 'person',
+    component: () => import('../views/PersonView.vue'),
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('../components/personView/PersonLogin.vue')
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('../components/personView/PersonRegister.vue')
+      },
+      {
+        path: "",
+        redirect: "login",
+      }
+    ]
   },
 ]
 
