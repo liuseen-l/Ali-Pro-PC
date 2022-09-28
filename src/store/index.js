@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 Vue.use(Vuex)
 
-import extample from './extample.js'
+import extample from './example.js'
 
 
 export default new Vuex.Store({
