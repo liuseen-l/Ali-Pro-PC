@@ -1,7 +1,7 @@
 <template>
   <div class="map">
     <!-- 头部区域 -->
-    <MapHeader></MapHeader>
+    <MapHeader />
     <div class="map-container">
       <MapCenter></MapCenter>
       <!-- chat 和 recommand 展示区域 ，二级路由 -->
