@@ -21,13 +21,6 @@ export default {
     MapCenter,
     // MapRecommand,
   },
-  methods: {
-    toPerson() {
-      this.$router.push({
-        path: "/login",
-      });
-    },
-  },
 };
 </script>
 <style lang="less" scoped>
