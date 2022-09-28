@@ -1,8 +1,5 @@
 <template>
-  <div class="map-center">
-    <!-- <button @click="toPerson">切换</button>
-    <span>MapView</span> -->
-  </div>
+  <div class="map-center"></div>
 </template>
 
 <script>

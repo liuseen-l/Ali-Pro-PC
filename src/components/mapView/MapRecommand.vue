@@ -1,8 +1,5 @@
 <template>
-  <div class="map-recommand">
-    <!-- <button @click="toPerson">切换</button>
-    <span>MapView</span> -->
-  </div>
+  <div class="map-recommand"></div>
 </template>
 
 <script>
