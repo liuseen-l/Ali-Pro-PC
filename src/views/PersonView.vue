@@ -438,7 +438,7 @@ export default {
     bottom: 0;
     z-index: 9998;
     width: 100%;
-    height: 400px;
+    height: 380px;
     background-image: url("~@/assets/images/VCG211360482335.jpg");
     background-repeat: no-repeat;
     background-size: 100% 120%;

@@ -12,57 +12,71 @@
       </div>
       <!-- 账号输入框 -->
       <div class="login-input">
-        <input
-          ref="username"
-          type="text"
-          name=""
-          v-model="username"
-          required=""
-        />
-        <label for="">UserName</label>
-        <i
-          v-show="username.length > 0"
-          @click="clearInput(1)"
-          class="iconfont icon-error"
-        ></i>
+        <div v-if="flag === false">
+          <input
+            ref="username"
+            type="text"
+            name=""
+            v-model="username"
+            required=""
+          />
+          <label for="">UserName</label>
+          <i
+            v-show="username.length > 0"
+            @click="clearInput(1)"
+            class="iconfont icon-error"
+          ></i>
+        </div>
+        <div v-else>
+          <input
+            type="text"
+            name=""
+            placeholder="手机号码"
+            v-model="phone"
+            required=""
+            maxlength="11"
+            class="login-input-phone"
+          />
+        </div>
 
-        <transition
-          enter-active-class="animate__animated animate__headShake"
-          leave-active-class="animate__animated animate__fadeOut"
-        >
+        <transition enter-active-class="animate__animated animate__headShake">
           <div
-            v-show="usernameError && username.length === 0"
+            v-show="(usernameError && username.length === 0) || phoneError"
             class="login-input-error"
           >
-            请输入用户名！
+            {{ news1 }}
           </div>
         </transition>
       </div>
       <!-- 密码输入框 -->
       <div class="login-input">
-        <input
-          v-if="flag === false"
-          ref="password"
-          type="password"
-          name=""
-          v-model="password"
-          required=""
-        />
-        <input
-          v-else
-          type="text"
-          name=""
-          placeholder="输入验证码"
-          v-model="password"
-          required=""
-          maxlength="6"
-          style="padding-left: 40px"
-        />
-        <label v-if="flag === false" for="">password</label>
-        <transition
-          enter-active-class="animate__animated animate__headShake"
-          leave-active-class="animate__animated animate__fadeOut"
-        >
+        <template v-if="flag === false">
+          <input
+            ref="password"
+            type="password"
+            name=""
+            v-model="password"
+            required=""
+          />
+          <label for="">password</label>
+        </template>
+        <template v-else>
+          <div class="login-input-message">
+            <input
+              type="text"
+              name=""
+              placeholder="输入验证码"
+              v-model="message"
+              required=""
+              maxlength="6"
+            />
+            <button ref="sendBtn" @click="sendMessage" type="button">
+              {{ messageNew }}
+            </button>
+          </div>
+        </template>
+
+        <transition enter-active-class="animate__animated animate__headShake">
           <div
             v-show="passwordError && password.length === 0"
             class="login-input-error"
@@ -101,19 +115,54 @@
 </template>
 
 <script>
+import { nextTick } from "vue";
 export default {
   name: "PersonLogin",
   data() {
     return {
-      username: "",
-      password: "",
+      username: "", // 账号
+      password: "", // 密码
+      phone: "", // 手机号码
+      message: "", // 验证码
       usernameError: false,
       passwordError: false,
-      flag: false, // false 为账号密码登录 ，true 为手机验证码登录
+      phoneError: false,
+      flag: true, // false 为账号密码登录 ，true 为手机验证码登录
+      news1: "", // 账号错误提示
+      news2: "", // 密码错误提示
+      messageNew: "发送验证码", //验证码倒计时
     };
   },
 
   methods: {
+    // 发送验证码
+    sendMessage() {
+      console.log(1);
+      if (!isNaN(Number(this.messageNew[0]))) {
+        return;
+      }
+      this.$refs.sendBtn.disabled = true;
+      let number = 60;
+      let timer = setInterval(() => {
+        number--;
+        if (number === 0) {
+          clearInterval(timer);
+          // 当验证码倒计时的时候可能切换到账号密码页面，此时dom节点没有挂载，需要判断一下
+          if (this.$refs.sendBtn) {
+            this.$refs.sendBtn.disabled = false;
+          }
+          // 如果倒计时完毕且处于账号密码界面，根据flag来设置不同的字段给予用户信息
+          if (this.flag === false) {
+            this.messageNew = `发送验证码`;
+          } else {
+            this.messageNew = `重发验证码`;
+          }
+        } else {
+          this.messageNew = `${number} 秒后可重发`;
+        }
+      }, 200);
+    },
+
     // 清除输入内容
     clearInput(judge) {
       switch (judge) {
@@ -126,22 +175,45 @@ export default {
     submit() {
       console.log("执行了");
       // 判断当前的username 和 password 是否有空
-      if (this.username.length === 0 || this.password.length === 0) {
-        if (this.username.length === 0 && this.password.length === 0) {
-          this.usernameError = true;
-          this.passwordError = true;
-          this.$refs.username.focus();
-        } else if (this.username.length === 0) {
-          this.usernameError = true;
-          this.$refs.username.focus();
-        } else {
-          this.passwordError = true;
-          this.$refs.password.focus();
+      if (this.flag === false) {
+        if (this.username.length === 0 || this.password.length === 0) {
+          if (this.username.length === 0 && this.password.length === 0) {
+            this.usernameError = true;
+            this.passwordError = true;
+            this.$refs.username.focus();
+          } else if (this.username.length === 0) {
+            this.usernameError = true;
+            this.$refs.username.focus();
+          } else {
+            this.passwordError = true;
+            this.$refs.password.focus();
+          }
+        }
+        this.news1 = "请输入账号";
+        this.news2 = "请输入密码";
+      } else {
+        if (this.phone.length !== 11) {
+          if (this.phone.length === 0) {
+            this.news1 = "请输入手机号码";
+          } else if (this.phone.length !== 11) {
+            this.news1 = "手机格式错误";
+          }
+          this.phoneError = true;
         }
       }
     },
     // 更换登录方式
     changeWay() {
+      // 消除切换时账号密码登录的错误信息
+      if (this.flag === false) {
+        this.usernameError = false;
+        this.passwordError = false;
+      } else {
+        this.phoneError = false;
+        this.messageNew = "发送验证码";
+      }
+      this.news1 = "";
+      this.news2 = "";
       this.flag = !this.flag;
     },
   },
@@ -189,6 +261,9 @@ export default {
           list-style: none;
           &:nth-child(2) {
             color: #59bce0;
+            &:hover {
+              cursor: pointer;
+            }
           }
         }
       }
@@ -197,7 +272,9 @@ export default {
     .login-input {
       /* 账号输入框相对定位 */
       position: relative;
+
       input {
+        box-sizing: border-box;
         width: 100%;
         padding: 10px 0;
         font-size: 16px;
@@ -211,6 +288,31 @@ export default {
         /* 背景颜色透明 */
         margin-bottom: 30px;
         background: transparent;
+      }
+
+      &-message {
+        box-sizing: border-box;
+        width: 100%;
+        display: flex;
+        margin-top: 10px;
+        input {
+          margin-bottom: 20px;
+          text-align: center;
+          width: 60%;
+          border: none;
+          background-color: rgb(57, 55, 55);
+        }
+        button {
+          width: 40%;
+          font-size: 14px;
+          height: 38px;
+          color: #59bce0;
+          background-color: rgb(224, 221, 217);
+          border: 1px solid #59bce0;
+          &:hover {
+            cursor: pointer;
+          }
+        }
       }
       &-error {
         position: absolute;
@@ -307,6 +409,9 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .login-breakline {
@@ -345,6 +450,9 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        &:hover {
+          cursor: pointer;
+        }
         &:nth-child(1) {
           color: green;
           background-color: white;
