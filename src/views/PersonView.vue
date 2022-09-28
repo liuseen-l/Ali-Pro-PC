@@ -29,11 +29,8 @@
 
 <script>
 import * as THREE from "three";
-import { GUI } from "three/examples/jsm/libs/dat.gui.module";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry.js";
-import { BufferGeometryUtils } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import _ from "lodash";
 // 容器
 let container = null;
@@ -84,7 +81,6 @@ let stats = new Stats();
 // 声明渲染器
 let renderer = null;
 // 声明调试工具
-let gui = new GUI();
 export default {
   name: "PersonView",
   mounted() {
@@ -127,9 +123,10 @@ export default {
       // 控制器必须放在renderer函数后面
       this.initOrbitControls();
       this.animate();
-      // initGUI()
-      // const axesHelper = new THREE.AxesHelper(2000)
-      // scene.add(axesHelper)
+      // 清除 threejs自带样式
+      document
+        .querySelector("#person-scene")
+        .querySelector("div").firstChild.style.display = "none";
     },
     // 初始化场景
     initScene() {
@@ -137,6 +134,7 @@ export default {
       // 在场景中添加雾的效果，Fog参数分别代表‘雾的颜色’、‘开始雾化的视线距离’、刚好雾化至看不见的视线距离’
       scene.fog = new THREE.Fog(0x000000, 0, 10000);
     },
+
     initSceneBg() {
       new THREE.TextureLoader().load(
         require("@/assets/images/VCG211360482339.jpg"),
