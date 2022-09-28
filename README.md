@@ -32,7 +32,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 一. 开会正式明确了项目的主题《智慧生活3D浏览引擎》
 二. 确定了项目的各个功能模块以及UI布局
 三. 根据各个成员的个人情况，安排了不同任务
-二. 建立了 github 仓库，并完成了项目相关的初始配置
+二. 建立了 github 仓库，并完成了项目相关的初始配置，仓库地址 https://github.com/code-ManL/Ali-Pro-PC
   1. eslint 代码约束条件
   2. 代码风格，按照vue官方代码风格进行编写代码
   3. 将项目开发过程中所需要的依赖进行了下载
