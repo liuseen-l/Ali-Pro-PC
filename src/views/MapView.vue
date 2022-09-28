@@ -4,6 +4,7 @@
     <MapHeader></MapHeader>
     <div class="map-container">
       <MapCenter></MapCenter>
+      <!-- chat 和 recommand 展示区域 ，二级路由 -->
       <router-view></router-view>
     </div>
   </div>
@@ -11,9 +12,8 @@
 
 <script>
 import MapHeader from "@/components/mapView/MapHeader.vue";
-// import MapChat from "@/components/mapView/MapChat.vue";
-import MapRecommand from "@/components/mapView/MapRecommand.vue";
 import MapCenter from "@/components/mapView/MapCenter.vue";
+
 export default {
   name: "MapView",
   components: {
