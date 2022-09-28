@@ -2,7 +2,7 @@
   <div class="map-recommand">
     <div class="content">
       <el-tabs type="border-card">
-        <el-tab-pane label="用户管理">用户管理</el-tab-pane>
+        <el-tab-pane label="用户管理">管理</el-tab-pane>
         <el-tab-pane label="配置管理">配置管理</el-tab-pane>
         <el-tab-pane label="角色管理">角色管理</el-tab-pane>
         <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
@@ -30,11 +30,14 @@ export default {
 .map-recommand {
   width: 35%;
   height: 100%;
-  background-color: rgb(18, 36, 70);
   .content {
-    padding: 10px;
+    padding: 30px;
     width: 100%;
     height: 100%;
+    background: rgb(18, 36, 70) url('~@/assets/images/recommend_bg.png')
+      no-repeat;
+    background-size: 98% 98%;
+    background-position: center;
   }
 }
 </style>
