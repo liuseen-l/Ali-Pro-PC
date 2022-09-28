@@ -1,10 +1,12 @@
 <template>
-  <div class="map-recommand"></div>
+  <div class="map-recommand">
+    测试测试
+  </div>
 </template>
 
 <script>
 export default {
-  name: "MapCenter",
+  name: 'MapCenter',
 };
 </script>
 <style lang="less" scoped>
