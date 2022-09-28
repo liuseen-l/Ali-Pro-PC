@@ -115,7 +115,6 @@
 </template>
 
 <script>
-import { nextTick } from "vue";
 export default {
   name: "PersonLogin",
   data() {
