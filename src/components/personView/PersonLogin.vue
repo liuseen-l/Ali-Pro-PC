@@ -41,7 +41,7 @@
       <!-- 密码输入框 -->
       <div class="login-input">
         <input
-          v-if="true"
+          v-if="flag === false"
           ref="password"
           type="password"
           name=""
@@ -50,13 +50,15 @@
         />
         <input
           v-else
-          ref="password"
           type="text"
           name=""
+          placeholder="输入验证码"
           v-model="password"
           required=""
+          maxlength="6"
+          style="padding-left: 40px"
         />
-        <label for="">password</label>
+        <label v-if="flag === false" for="">password</label>
         <transition
           enter-active-class="animate__animated animate__headShake"
           leave-active-class="animate__animated animate__fadeOut"
@@ -76,7 +78,9 @@
           <input type="checkbox" />
           <span>记住我</span>
         </div>
-        <div class="login-remember-message">短信验证登录</div>
+        <div @click="changeWay" class="login-remember-message">
+          {{ flag === false ? "短信验证登录" : "账号密码登录" }}
+        </div>
       </div>
       <!-- 提交按钮 -->
       <div class="login-submit" @click="submit">Submit</div>
@@ -105,6 +109,7 @@ export default {
       password: "",
       usernameError: false,
       passwordError: false,
+      flag: false, // false 为账号密码登录 ，true 为手机验证码登录
     };
   },
 
@@ -134,6 +139,10 @@ export default {
           this.$refs.password.focus();
         }
       }
+    },
+    // 更换登录方式
+    changeWay() {
+      this.flag = !this.flag;
     },
   },
 };
@@ -262,6 +271,7 @@ export default {
       }
       &-message {
         color: #59bce0;
+        cursor: pointer;
       }
     }
 
@@ -329,8 +339,8 @@ export default {
       justify-content: space-around;
       i {
         font-size: 24px;
-        width: 35px;
-        height: 35px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         display: flex;
         align-items: center;
