@@ -5,6 +5,7 @@ import 'normalize.css/normalize.css'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import '@/assets/css/reset.css'
 
 import animated from 'animate.css';
 
@@ -20,5 +21,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   // store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount('#app')
