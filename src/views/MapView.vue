@@ -1,7 +1,7 @@
 <template>
   <div class="map">
     <!-- 头部区域 -->
-    <MapHeader></MapHeader>
+    <MapHeader />
     <div class="map-container">
       <!-- 地图展示区域 -->
       <MapCenter></MapCenter>
