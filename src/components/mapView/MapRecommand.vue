@@ -1,17 +1,13 @@
 <template>
   <div class="map-recommand">
-    <div class="widget__container">
-      <ul class="tabs">
-        <li class="widget-tab no-select selected" data-tab="tab-one">热门地点</li>
-        <li class="widget-tab no-select" data-tab="tab-two">周边推荐</li>
-        <li class="widget-tab no-select" data-tab="tab-three">活跃会话</li>
-      </ul>
-      <div class="tab-page visible" data-tab="tab-one-seg">
-        <div class="content">
-          <h2 class="subtitle">Sub 1</h2>
-          <div class="placeholder">image goes here</div>
-          <p class="description">Description of sub</p>
-        </div>
+    <div class="content">
+      <div class="content-header">
+        <button class="custom-btn btn-3 active"><span>热门地点</span></button>
+        <button class="custom-btn btn-3"><span>周边推荐</span></button>
+        <button class="custom-btn btn-3"><span>活跃会话</span></button>
+      </div>
+      <div class="content-body">
+
       </div>
     </div>
   </div>
@@ -36,76 +32,160 @@ export default {
 .map-recommand {
   width: 35%;
   height: 100%;
-  background: rgb(13, 43, 97) url('~@/assets/images/recommend_bg.png') no-repeat;
+  background: #0d2b61 url('~@/assets/images/recommend_bg.png') no-repeat;
   background-size: 98% 98%;
   background-position: center;
-  padding: 30px;
-  .widget__container {
-    color: white;
-    margin: 0 auto;
-    max-width: 1130px;
-    .tabs {
-      margin: 0;
-      padding: 0;
-      .widget-tab {
-        -webkit-border-top-left-radius: 10px;
-        -moz-border-top-left-radius: 10px;
-        -ms-border-top-left-radius: 10px;
-        border-top-left-radius: 10px;
-        -webkit-border-top-right-radius: 10px;
-        -moz-border-top-right-radius: 10px;
-        -ms-border-top-right-radius: 10px;
-        border-top-right-radius: 10px;
-        -webkit-border-bottom-right-radius: 0;
-        -moz-border-bottom-right-radius: 0;
-        -ms-border-bottom-right-radius: 0;
-        border-bottom-right-radius: 0;
-        -webkit-border-bottom-left-radius: 0;
-        -moz-border-bottom-left-radius: 0;
-        -ms-border-bottom-left-radius: 0;
-        border-bottom-left-radius: 0;
-        background-color: #eeeeee;
-        border: 1px solid #9b9b9b;
-        border-bottom: none;
-        color: rgb(13, 43, 97);
-        cursor: pointer;
-        display: inline-block;
-        height: 20px;
-        padding: 10px 20px;
-      }
-      .selected {
-        background-color: transparent;
+  padding: 40px;
+  .content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .content-header {
+      padding-left: 1%;
+      .custom-btn {
+        width: 130px;
+        height: 40px;
         color: #fff;
-      }
-    }
-    .tab-page {
-      -webkit-border-top-left-radius: 0;
-      -moz-border-top-left-radius: 0;
-      -ms-border-top-left-radius: 0;
-      border-top-left-radius: 0;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-top-right-radius: 10px;
-      -ms-border-top-right-radius: 10px;
-      border-top-right-radius: 10px;
-      -webkit-border-bottom-right-radius: 10px;
-      -moz-border-bottom-right-radius: 10px;
-      -ms-border-bottom-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-      -webkit-border-bottom-left-radius: 10px;
-      -moz-border-bottom-left-radius: 10px;
-      -ms-border-bottom-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-      background-color: white;
-      border: 1px solid #c0c0c0;
-      height: 100%;
-      z-index: 1;
-      .content {
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        padding: 10px 25px;
+        font-family: 'Lato', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
         display: inline-block;
-        margin: 0 auto;
-        text-align: center;
-        width: 33%;
+        box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+          inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+          7px 7px 20px 0px rgba(0, 0, 0, 0.1),
+          4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+        text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+          -4px -4px 6px rgba(116, 125, 136, 0.2);
+        outline: none;
+      }
+      .btn-3 {
+        color: #fff;
+        background: #689ee9;
+        width: 130px;
+        height: 40px;
+        line-height: 42px;
+        padding: 0;
+        border: none;
+      }
+      .active {
+        background: #0d2b61;
+      }
+      .btn-3 span {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .btn-3:before,
+      .btn-3:after {
+        position: absolute;
+        content: '';
+        right: 0;
+        top: 0;
+        background: rgba(2, 126, 251, 1);
+        transition: all 0.3s ease;
+      }
+
+      .btn-3:before {
+        height: 0%;
+        width: 2px;
+      }
+
+      .btn-3:after {
+        width: 0%;
+        height: 2px;
+      }
+
+      .btn-3:hover {
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .btn-3:hover:before {
+        height: 100%;
+      }
+
+      .btn-3:hover:after {
+        width: 100%;
+      }
+
+      .btn-3 span:hover {
+        color: rgba(2, 126, 251, 1);
+      }
+
+      .btn-3 span:before,
+      .btn-3 span:after {
+        position: absolute;
+        content: '';
+        left: 0;
+        bottom: 0;
+        background: rgba(2, 126, 251, 1);
+        transition: all 0.3s ease;
+      }
+
+      .btn-3 span:before {
+        width: 2px;
+        height: 0%;
+      }
+
+      .btn-3 span:after {
+        width: 0%;
+        height: 2px;
+      }
+
+      .btn-3 span:hover:before {
+        height: 100%;
+      }
+
+      .btn-3 span:hover:after {
+        width: 100%;
       }
     }
+    .content-body {
+      height: 100%;
+      box-shadow: 8px 8px 8px #000;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &::before {
+        content: '';
+        background-image: conic-gradient(#689ee9 20deg, transparent 120deg);
+        width: 150%;
+        height: 150%;
+        position: absolute;
+        animation: rotate 5s linear infinite;
+      }
+      &::after {
+        content: '';
+        width: 98%;
+        height: 99%;
+        background: #0d2b61;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // border-radius: 10px;
+        box-shadow: inset 8px 8px 16px #000;
+      }
+    }
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>
