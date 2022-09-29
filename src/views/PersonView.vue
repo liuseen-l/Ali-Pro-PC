@@ -413,7 +413,7 @@ export default {
 
 <style lang="less" scoped>
 .person {
-  background-color: black;
+  background-color: #000209;
   width: 100%;
   height: 100vh;
   min-width: 1024px;
@@ -423,14 +423,7 @@ export default {
     height: 100%;
   }
   .person-plane {
-    position: absolute;
-    z-index: 9999;
-    width: 500px;
-    height: 500px;
-    right: 0;
-    bottom: 0;
-    transform: translate(-30%, -40%);
-
+    background-color: red;
   }
   .person-ground {
     position: absolute;

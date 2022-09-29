@@ -35,11 +35,11 @@ export default [
         name: 'login',
         component: () => import('../components/personView/PersonLogin.vue')
       },
-      // {
-      //   path: 'register',
-      //   name: 'register',
-      //   component: () => import('../components/personView/PersonRegister.vue')
-      // },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('../components/personView/PersonRegister.vue')
+      },
       {
         path: "",
         redirect: "login",
