@@ -42,7 +42,7 @@
       <div class="visitor-status" v-else>
         <!-- TODO 注册路由跳转 -->
         <span>注册</span>
-        <button class="btn-login" @click="$router.push('/login')">登录</button>
+        <button class="btn-login" @click="$router.push('/person')">登录</button>
       </div>
     </div>
   </div>

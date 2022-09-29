@@ -103,6 +103,7 @@ export default {
     PersonFooter,
   },
   data() {
+    // 校验用户名
     var checkusername = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("用户名不能为空"));
@@ -113,6 +114,7 @@ export default {
         }, 1000);
       }
     };
+    // 校验密码
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -123,6 +125,7 @@ export default {
         callback();
       }
     };
+    //  校验确认密码
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
@@ -132,6 +135,7 @@ export default {
         callback();
       }
     };
+    // 校验邮箱
     var validateEmail = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入邮箱"));
@@ -185,9 +189,11 @@ export default {
         path: "login",
       });
     },
+    // 重置内容
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    // 前往登录页面
     toLogin() {
       this.$router.push({
         path: "login",
@@ -206,17 +212,10 @@ export default {
   transform: translate(-30%, -30%);
   width: 500px;
   height: 600px;
-  // background-color: red;
-  /* 内边距 */
   padding: 40px;
-  /* 背景颜色 */
   background: rgba(37, 37, 37, 0.7);
-  // background-color: rgb(101, 99, 99);
-  /* 标准盒模型 */
   box-sizing: border-box;
-  /* 设置盒子阴影 */
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-  /* 边框圆角 */
   color: white;
   border-radius: 10px;
 
