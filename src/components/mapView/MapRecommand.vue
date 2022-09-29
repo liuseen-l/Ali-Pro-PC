@@ -7,7 +7,33 @@
         <button class="custom-btn btn-3"><span>活跃会话</span></button>
       </div>
       <div class="content-body">
-
+        <div class="recommand-list">
+          <div class="recommand-item">
+            <div class="recommand-title">
+              <div class="title-name">四季酒店</div>
+              <div class="title-hot">
+                <i class="iconfont icon-fire" style="color:red"></i>
+                <i class="iconfont icon-fire" style="color:red"></i>
+                <i class="iconfont icon-fire" style="color:red"></i>
+                <i class="iconfont icon-fire" style="color:red"></i>
+              </div>
+            </div>
+            <div class="recommand-addtress"><i class="el-icon-location-information"></i>
+              北京市朝阳区酒仙桥路102号</div>
+            <div class="recommand-rate">
+              <i class="el-icon-star-on"></i>
+              <i class="el-icon-star-on"></i>
+              <i class="el-icon-star-on"></i>
+              <i class="el-icon-star-on"></i>
+              <i class="el-icon-star-off"></i>
+            </div>
+            <div class="remmand-img">
+              <el-image style="width: 100px; height: 100px" :src="url" fit="fill"></el-image>
+              <el-image style="width: 100px; height: 100px" :src="url" fit="fill"></el-image>
+              <el-image style="width: 100px; height: 100px" :src="url" fit="fill"></el-image>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -19,6 +45,7 @@ export default {
   data() {
     return {
       activeName: 'first',
+      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
     };
   },
   methods: {
@@ -164,6 +191,7 @@ export default {
         height: 150%;
         position: absolute;
         animation: rotate 5s linear infinite;
+        z-index: 1;
       }
       &::after {
         content: '';
@@ -174,8 +202,59 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        // border-radius: 10px;
+        z-index: 2;
         box-shadow: inset 8px 8px 16px #000;
+      }
+      .recommand-list {
+        width: 100%;
+        height: 100%;
+        padding: 30px 32px;
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        .recommand-item {
+          background-image: linear-gradient(#000000aa 10%, transparent);
+          padding: 16px;
+          color: white;
+          position: relative;
+          border: 10px solid transparent;
+          background-clip: padding-box;
+        }
+        .recommand-item::after {
+          right: -8px;
+          top: -8px;
+          position: absolute;
+          z-index: 4;
+          border-top: 1px dashed white;
+          border-right: 1px dashed white;
+        }
+        .recommand-item:hover::after {
+          right: -1px;
+          top: -1px;
+          transition: all ease-in 0.2s;
+        }
+        .recommand-item:hover::before {
+          bottom: -1px;
+          left: -1px;
+          transition: all ease-in 0.2s;
+        }
+        .recommand-item::after,
+        .recommand-item::before {
+          pointer-events: none;
+          content: '';
+          display: block;
+          position: absolute;
+          width: 80%;
+          height: 50%;
+          transition: all ease-in 0.2s;
+        }
+        .recommand-item::before {
+          bottom: -8px;
+          left: -8px;
+          border-left: 1px dashed white;
+          border-bottom: 1px dashed white;
+        }
       }
     }
   }
