@@ -3,6 +3,7 @@
     <!-- 头部区域 -->
     <MapHeader />
     <div class="map-container">
+      <!-- 地图展示区域 -->
       <MapCenter></MapCenter>
       <!-- chat 和 recommand 展示区域 ，二级路由 -->
       <router-view></router-view>
@@ -30,7 +31,7 @@ export default {
   min-width: 1024px;
   &-container {
     width: 100%;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 200px);
     display: flex;
   }
 }

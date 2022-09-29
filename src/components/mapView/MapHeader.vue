@@ -112,7 +112,7 @@ export default {
 
 .header {
   max-width: 100%;
-  height: 60px;
+  height: 160px;
   background-color: #081a3c;
   display: flex;
   justify-content: space-between;
