@@ -7,7 +7,7 @@
         <span>登录</span>
         <ul>
           <li>没有账号？</li>
-          <li>点击注册</li>
+          <li @click="toRegister">点击注册</li>
         </ul>
       </div>
       <!-- 账号输入框 -->
@@ -100,23 +100,18 @@
       <div class="login-submit" @click="submit">Submit</div>
       <!-- 忘记密码 -->
       <div class="login-forget">已有帐号，忘记密码？</div>
-      <!-- 其他登录 -->
-      <div class="login-breakline">其他方式登录</div>
-      <!-- 其他登录标签 -->
-      <div class="login-others">
-        <i class="iconfont icon-weixin"></i>
-        <i class="iconfont icon-Gitlab-fill"></i>
-        <i class="iconfont icon-QQ-circle-fill"></i>
-        <i class="iconfont icon-github1"></i>
-        <i class="iconfont icon-24gf-ellipsis"></i>
-      </div>
+      <PersonFooter />
     </form>
   </div>
 </template>
 
 <script>
+import PersonFooter from "@/components/personView/PersonFooter/PersonFooter.vue";
 export default {
   name: "PersonLogin",
+  components: {
+    PersonFooter,
+  },
   data() {
     return {
       username: "", // 账号
@@ -126,7 +121,7 @@ export default {
       usernameError: false,
       passwordError: false,
       phoneError: false,
-      flag: true, // false 为账号密码登录 ，true 为手机验证码登录
+      flag: false, // false 为账号密码登录 ，true 为手机验证码登录
       news1: "", // 账号错误提示
       news2: "", // 密码错误提示
       messageNew: "发送验证码", //验证码倒计时
@@ -134,9 +129,14 @@ export default {
   },
 
   methods: {
+    // 前往注册页面
+    toRegister() {
+      this.$router.push({
+        path: "register",
+      });
+    },
     // 发送验证码
     sendMessage() {
-      console.log(1);
       if (!isNaN(Number(this.messageNew[0]))) {
         return;
       }
@@ -172,7 +172,6 @@ export default {
     },
     // 登录
     submit() {
-      console.log("执行了");
       // 判断当前的username 和 password 是否有空
       if (this.flag === false) {
         if (this.username.length === 0 || this.password.length === 0) {
@@ -187,6 +186,7 @@ export default {
             this.passwordError = true;
             this.$refs.password.focus();
           }
+          return;
         }
         this.news1 = "请输入账号";
         this.news2 = "请输入密码";
@@ -198,8 +198,12 @@ export default {
             this.news1 = "手机格式错误";
           }
           this.phoneError = true;
+          return;
         }
       }
+      this.$router.push({
+        path: "/map",
+      });
     },
     // 更换登录方式
     changeWay() {
@@ -222,8 +226,13 @@ export default {
 <style lang="less" scoped>
 @import url("../../assets/iconfont/iconfont.css");
 .login {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  z-index: 9999;
+  right: 0;
+  bottom: 0;
+  transform: translate(-30%, -40%);
+  width: 500px;
+  height: 500px;
   // background-color: red;
   /* 内边距 */
   padding: 40px;
@@ -413,67 +422,67 @@ export default {
       }
     }
 
-    .login-breakline {
-      display: flex;
-      margin-bottom: 20px;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      height: 20px;
-      width: 100%;
-      // background-color: red;
-      position: relative;
-      &::before {
-        content: "";
-        width: 35%;
-        height: 1.5px;
-        background-color: #fff;
-      }
-      &::after {
-        content: "";
-        width: 35%;
-        height: 1.5px;
-        background-color: #fff;
-      }
-    }
+    // .login-breakline {
+    //   display: flex;
+    //   margin-bottom: 20px;
+    //   align-items: center;
+    //   justify-content: space-between;
+    //   font-size: 12px;
+    //   height: 20px;
+    //   width: 100%;
+    //   // background-color: red;
+    //   position: relative;
+    //   &::before {
+    //     content: "";
+    //     width: 35%;
+    //     height: 1.5px;
+    //     background-color: #fff;
+    //   }
+    //   &::after {
+    //     content: "";
+    //     width: 35%;
+    //     height: 1.5px;
+    //     background-color: #fff;
+    //   }
+    // }
 
-    .login-others {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      i {
-        font-size: 24px;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &:hover {
-          cursor: pointer;
-        }
-        &:nth-child(1) {
-          color: green;
-          background-color: white;
-        }
-        &:nth-child(2) {
-          color: white;
-          background-color: #f67c2c;
-        }
-        &:nth-child(3) {
-          color: white;
-          background-color: #ea1b22;
-        }
-        &:nth-child(4) {
-          color: black;
-          background-color: white;
-        }
-        &:nth-child(5) {
-          color: white;
-          background-color: gainsboro;
-        }
-      }
-    }
+    // .login-others {
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: space-around;
+    //   i {
+    //     font-size: 24px;
+    //     width: 45px;
+    //     height: 45px;
+    //     border-radius: 50%;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     &:hover {
+    //       cursor: pointer;
+    //     }
+    //     &:nth-child(1) {
+    //       color: green;
+    //       background-color: white;
+    //     }
+    //     &:nth-child(2) {
+    //       color: white;
+    //       background-color: #f67c2c;
+    //     }
+    //     &:nth-child(3) {
+    //       color: white;
+    //       background-color: #ea1b22;
+    //     }
+    //     &:nth-child(4) {
+    //       color: black;
+    //       background-color: white;
+    //     }
+    //     &:nth-child(5) {
+    //       color: white;
+    //       background-color: gainsboro;
+    //     }
+    //   }
+    // }
   }
 }
 </style>
