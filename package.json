@@ -14,11 +14,13 @@
   },
   "main": ".eslintrc.js",
   "dependencies": {
+    "@mapbox/mapbox-gl-language": "^1.0.0",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.10",
     "lodash": "^4.17.21",
+    "mapbox-gl": "^2.10.0",
     "normalize.css": "^8.0.1",
     "three": "^0.133.0",
     "vue": "^2.6.14",

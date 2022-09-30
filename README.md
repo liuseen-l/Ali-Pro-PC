@@ -3,6 +3,10 @@
 ## Project setup
 ```
 npm install
+
+
+npm install mapbox-gl
+npm install --save mapbox-gl @mapbox/mapbox-gl-language
 ```
 
 ### Compiles and hot-reloads for development
