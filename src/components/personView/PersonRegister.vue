@@ -208,7 +208,7 @@ export default {
   position: absolute;
   z-index: 9999;
   right: 0;
-  bottom: 0;
+  bottom: 0;  
   transform: translate(-30%, -30%);
   width: 500px;
   height: 600px;
