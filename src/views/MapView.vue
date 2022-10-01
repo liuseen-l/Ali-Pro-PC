@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import MapHeader from "@/components/mapView/MapHeader.vue";
+import MapHeader from "@/components/mapView/MapHeader/MapHeader.vue";
 import MapCenter from "@/components/mapView/MapCenter.vue";
 
 export default {

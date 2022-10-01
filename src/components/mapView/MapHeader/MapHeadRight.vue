@@ -1,12 +1,6 @@
 <template>
-  <div class="header">
-    <div class="header__logo">
-      <img
-        src="../../assets/images/alibabagroup.svg"
-        alt="alibaba-group-logo"
-      />
-    </div>
-    <div class="header__info">
+  <div class="right">
+    <div class="right-top">
       <div class="time">
         <i class="el-icon-time"></i>
         {{ `${hours}:${minutes}` }}
@@ -23,7 +17,6 @@
       </div>
       <div class="user-info" v-if="isLogin">
         Hi: {{ username }}
-        <!-- <i class="el-icon-user"></i> -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -40,19 +33,26 @@
         </svg>
       </div>
       <div class="visitor-status" v-else>
-        <!-- TODO 注册路由跳转 -->
-        <span>注册</span>
-        <button class="btn-login" @click="$router.push('/person')">登录</button>
+        <span @click="toRegister">注册</span>
+        <button class="btn-login" @click="toLogin">登录</button>
       </div>
+    </div>
+    <div class="right-bottom">
+      <HeadItem :count="299" :name="'在线人数'" />
+      <HeadItem :count="'🔥'" :name="'图书馆'" />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import HeadItem from "./HeadItem.vue";
 
 export default {
-  name: "MapHeader",
+  name: "MapHeadRight",
+  components: {
+    HeadItem,
+  },
   data() {
     return {
       isLogin: false,
@@ -65,7 +65,6 @@ export default {
       minutes: "",
     };
   },
-  computed: {},
   mounted() {
     /* eslint-disable */
     // 这里 returnCitySN 是从 idnex.html 中 script 标签外部引入的src中获取到的
@@ -88,7 +87,7 @@ export default {
     },
   },
   methods: {
-    getWeather: async function () {
+    async getWeather() {
       const res = await axios.get(
         `https://restapi.amap.com/v3/weather/weatherInfo?key=ef91921fa920d778673005eaacb44836&city=${this.cid}`
       );
@@ -97,42 +96,47 @@ export default {
       this.weather = weatherInfo.weather;
       this.temperature = weatherInfo.temperature + " ℃";
     },
-    getHours: function () {
+    getHours() {
       this.hours = new Date().getHours();
     },
-    getMinutes: function () {
+    getMinutes() {
       const minutes = new Date().getMinutes();
       this.minutes = minutes >= 10 ? minutes : "0" + minutes;
+    },
+    toLogin() {
+      this.$router.push("/person/login");
+    },
+    toRegister() {
+      this.$router.push("/person/register");
     },
   },
 };
 </script>
+
 <style lang="less" scoped>
 @font-color: #e9ecef;
+@cyan: #00e6f6;
 
-.header {
-  max-width: 100%;
-  height: 160px;
-  background-color: #081a3c;
+@--slice-0: inset(50% 50%, 50%, 50%);
+@--slice-1: inset(80%, -3px 0 0);
+@--slice-2: inset(50% -3px 30% 0);
+@--slice-3: inset(10% -3px 85% 0);
+@--slice-4: inset(40% -3px 43% 0);
+@--slice-5: inset(80% -3px 5% 0);
+
+.right {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 0 20px;
 
-  &__logo {
-    img {
-      vertical-align: middle;
-      width: 200px;
-      height: 50px;
-    }
-  }
-
-  &__info {
+  .right-top {
     display: flex;
     align-items: center;
     gap: 40px;
     font-size: 1.05rem;
     color: @font-color;
+    margin-top: 20px;
+    margin-bottom: 5px;
 
     .user-info {
       display: flex;
@@ -141,6 +145,7 @@ export default {
       .avatar {
         width: 40px;
         height: 40px;
+        margin: 0 10px;
       }
     }
 
@@ -153,19 +158,105 @@ export default {
         cursor: pointer;
       }
 
-      .btn-login {
+      .btn-login,
+      .btn-login::after {
         cursor: pointer;
-        padding: 6px 12px;
+        padding: 6px 18px;
         color: @font-color;
-        border: 1px solid @font-color;
-        border-radius: 5px;
-        background: transparent;
+        font-weight: 600;
+        border: 0;
+        background: linear-gradient(45deg, transparent 5%, #ff013c 5%);
+        letter-spacing: 3px;
+        box-shadow: 3px 0 0 @cyan;
+        outline: transparent;
+        position: relative;
+      }
+
+      .btn-login::after {
+        content: "登录";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          transparent 3%,
+          @cyan 3%,
+          @cyan 5%,
+          #ff013c 5%
+        );
+        text-shadow: -0.5px -0.5px 0px #f8f005, 0.5px 0.5px 0px #00e6f6;
+        clip-path: @--slice-0;
+      }
+
+      .btn-login:hover::after {
+        animation: 1s glitch;
+        animation-timing-function: steps(2, end);
+      }
+
+      @keyframes glitch {
+        0% {
+          clip-path: @--slice-1;
+          transform: translate(-2px, -2px);
+        }
+        10% {
+          clip-path: @--slice-3;
+          transform: translate(2px, 2px);
+        }
+        20% {
+          clip-path: @--slice-1;
+          transform: translate(-2px, 2px);
+        }
+        30% {
+          clip-path: @--slice-3;
+          transform: translate(0px, 2px);
+        }
+        40% {
+          clip-path: @--slice-2;
+          transform: translate(-2px, 0px);
+        }
+
+        50% {
+          clip-path: @--slice-3;
+          transform: translate(2px, 0px);
+        }
+
+        60% {
+          clip-path: @--slice-4;
+          transform: translate(2px, 4px);
+        }
+
+        70% {
+          clip-path: @--slice-2;
+          transform: translate(-5px, 5px);
+        }
+
+        80% {
+          clip-path: @--slice-5;
+          transform: translate(10px, -5px);
+        }
+
+        90% {
+          clip-path: @--slice-1;
+          transform: translate(-5px, 0px);
+        }
+
+        100% {
+          clip-path: @--slice-1;
+          transform: translate(0);
+        }
       }
     }
 
     i {
       font-size: 1.25rem;
     }
+  }
+
+  .right-bottom {
+    display: flex;
+    gap: 20px;
   }
 }
 </style>
