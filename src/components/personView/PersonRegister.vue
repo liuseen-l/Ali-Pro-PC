@@ -179,8 +179,9 @@ export default {
           return false;
         }
       });
+      
       // 如果没有同意使用条款直接返回,并提示
-      if (!this.checked && flag) {
+      if (!this.checked || flag) {
         this.giveError();
         return false;
       }
@@ -208,7 +209,7 @@ export default {
   position: absolute;
   z-index: 9999;
   right: 0;
-  bottom: 0;  
+  bottom: 0;
   transform: translate(-30%, -30%);
   width: 500px;
   height: 600px;
