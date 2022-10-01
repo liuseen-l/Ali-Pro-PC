@@ -168,9 +168,17 @@ export default {
           return;
         }
       }
+      //添加登录成功后在localStorage记录登录用户的用户名，用于聊天室识别
+      let usernameStorage = this.username
+      let keyName = 'user' + this.username;
+      localStorage.setItem(keyName, usernameStorage);
+      //修改路由跳转 添加携带参数
       this.$router.push({
-        path: '/map',
-      });
+        name:'chat',
+      })
+      // this.$router.push({
+      //   path: '/map',
+      // });
     },
     // 更换登录方式
     changeWay() {

@@ -4,6 +4,7 @@
       <div class="content-header">
         <button class="custom-btn btn-3 active"><span>热门地点</span></button>
         <button class="custom-btn btn-3"><span>周边推荐</span></button>
+        <button class="custom-btn btn-3"><span>聊天室</span></button>
       </div>
       <div class="content-body">
         <div class="recommand-list">
