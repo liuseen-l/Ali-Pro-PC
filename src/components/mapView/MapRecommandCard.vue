@@ -14,19 +14,18 @@
         <div class="recommand-title">
           <div class="title-name">{{data.name}}</div>
           <div class="title-hot">火爆值：
-            <i v-for="(num,idx) in data.hot" :key="idx" class="iconfont icon-fire"
-               style="color:red"></i>
+            <i v-for="(num,idx) in 4" :key="idx" class="iconfont icon-fire" style="color:red"></i>
           </div>
         </div>
-        <el-tooltip effect="dark" :content="data.location" :disabled="showTip" placement="left">
+        <el-tooltip effect="dark" :content="address" :disabled="showTip" placement="left">
           <div class="recommand-addtress" @mouseover="locationMouseOver(`${data.location}-index`)">
             <i class="el-icon-location-information"></i>
             <span :ref="`${data.location}-index`">
-              {{`${data.pname}${data.cityname}${data.adname}${data.address}`}}(距离：{{data.distance}}m)</span>
+              {{address}}（距离：{{data.distance}}m）</span>
           </div>
         </el-tooltip>
         <div class="recommand-rate">
-          <span>{{data.score}}分</span>
+          <span>4.6分</span>
           <i class="iconfont icon-star-fill "></i>
           <i class="iconfont icon-star-fill"></i>
           <i class="iconfont icon-star-fill"></i>
@@ -34,10 +33,17 @@
           <i class="iconfont icon-star"></i>
         </div>
         <div class="recommand-tags">
-          <el-tag size="small" type="danger" effect="plain" class="custom-tag tag-red">百亿补贴
+          <el-tag size="mini" type="danger" effect="plain" class="custom-tag tag-red">百亿补贴
           </el-tag>
-          <el-tag v-for="(ele,i) in data.tags" :key="i" size="small" type="info" effect="plain"
-                  class="custom-tag tag-white">{{ele}}</el-tag>
+          <template v-if="type=='restaurant'">
+            <el-tag v-for="(ele,i) in tagsRestuarant" :key="i" size="mini" type="info"
+                    effect="plain" class="custom-tag tag-white">{{ele}}</el-tag>
+          </template>
+          <template v-if="type=='scenery'">
+            <el-tag v-for="(ele,i) in tagsScenery" :key="i" size="mini" type="info" effect="plain"
+                    class="custom-tag tag-white">{{ele}}</el-tag>
+          </template>
+
         </div>
       </div>
     </div>
@@ -49,10 +55,14 @@ export default {
   name: 'MapRecommandCard',
   props: {
     data: { type: Object, default: () => {} },
+    type: { type: String, default: '' },
   },
   data() {
     return {
       showTip: false,
+      address: `${this.data.pname}${this.data.cityname}${this.data.adname}${this.data.address}距离：${this.data.distance}m）`,
+      tagsRestuarant: ['满30减5', '人气榜top5'],
+      tagsScenery: ['5A级', '可预订', '需换票', '必去榜top5'],
     };
   },
 
@@ -75,19 +85,19 @@ export default {
   margin: 0 32px 16px;
   .recommand-item {
     background-image: linear-gradient(#000000aa 10%, transparent);
-    padding: 16px 16px 2px;
+    padding: 8px 16px 4px;
     color: white;
     position: relative;
     border: 10px solid transparent;
     background-clip: padding-box;
     display: flex;
     .item-left {
-      width: 100px;
+      width: 90px;
       margin-right: 24px;
       .recommand-img {
         .img-item {
-          width: 100px;
-          height: 130px;
+          width: 90px;
+          height: 110px;
         }
       }
     }
@@ -101,7 +111,7 @@ export default {
         margin-bottom: 6px;
         .title-name {
           font-weight: 700;
-          font-size: 18px;
+          font-size: 16px;
           margin-right: 8px;
         }
         .title-hot {
