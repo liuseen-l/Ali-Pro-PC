@@ -11,8 +11,8 @@ import animated from 'animate.css'
 
 Vue.use(animated)
 
-// import store from './store'
-
+import store from './store/index'
+console.log(111, store)
 // 引入element-ui
 Vue.use(ElementUI)
 
@@ -20,6 +20,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  // store,
+  store,
   render: (h) => h(App),
 }).$mount('#app')

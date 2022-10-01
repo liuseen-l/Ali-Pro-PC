@@ -3,19 +3,28 @@
     <div class="recommand-item">
       <div class="item-left">
         <div class="recommand-img">
-          <el-image class="img-item" :src="url" fit="fill"></el-image>
+          <el-image class="img-item" v-if="data.photos.length>0" :src="data.photos[0].url"
+                    fit="fill">
+          </el-image>
+          <el-image v-else class="img-item" fit="fill">
+          </el-image>
         </div>
       </div>
       <div class="item-right">
         <div class="recommand-title">
-          <div class="title-name">{{data.title}}</div>
+          <div class="title-name">{{data.name}}</div>
           <div class="title-hot">火爆值：
             <i v-for="(num,idx) in data.hot" :key="idx" class="iconfont icon-fire"
                style="color:red"></i>
           </div>
         </div>
-        <div class="recommand-addtress"><i class="el-icon-location-information"></i>
-          {{data.location}}</div>
+        <el-tooltip effect="dark" :content="data.location" :disabled="showTip" placement="left">
+          <div class="recommand-addtress" @mouseover="locationMouseOver(`${data.location}-index`)">
+            <i class="el-icon-location-information"></i>
+            <span :ref="`${data.location}-index`">
+              {{`${data.pname}${data.cityname}${data.adname}${data.address}`}}(距离：{{data.distance}}m)</span>
+          </div>
+        </el-tooltip>
         <div class="recommand-rate">
           <span>{{data.score}}分</span>
           <i class="iconfont icon-star-fill "></i>
@@ -43,13 +52,21 @@ export default {
   },
   data() {
     return {
-      url: 'https://dd-static.jd.com/ddimg/jfs/t1/21848/11/20098/43348/633658f5E1fa049a1/66dd6f1e5c6a17a8.jpg',
+      showTip: false,
     };
   },
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    // 当地址过长时显示提示
+    locationMouseOver(name) {
+      const tag = this.$refs[name];
+      const parentWidth = tag.parentNode.offsetWidth;
+      const contentWidth = tag.offsetWidth;
+      this.showTip = contentWidth <= parentWidth;
+    },
+  },
 };
 </script>
 
@@ -58,102 +75,113 @@ export default {
   margin: 0 32px 16px;
   .recommand-item {
     background-image: linear-gradient(#000000aa 10%, transparent);
-    padding: 16px;
+    padding: 16px 16px 2px;
     color: white;
     position: relative;
     border: 10px solid transparent;
     background-clip: padding-box;
     display: flex;
-    .recommand-title {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 10px;
-      .title-name {
-        font-weight: 700;
-        font-size: 18px;
-        margin-right: 20px;
-      }
-      .title-hot {
-        font-size: 14px;
-        i {
-          margin-right: 1px;
-          font-size: 14px;
+    .item-left {
+      width: 100px;
+      margin-right: 24px;
+      .recommand-img {
+        .img-item {
+          width: 100px;
+          height: 130px;
         }
       }
     }
-    .recommand-addtress {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .recommand-rate {
-      font-size: 14px;
-      margin-bottom: 10px;
-      span {
-        margin-right: 5px;
+    .item-right {
+      flex: 1;
+      overflow: hidden;
+      .recommand-title {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 6px;
+        .title-name {
+          font-weight: 700;
+          font-size: 18px;
+          margin-right: 8px;
+        }
+        .title-hot {
+          font-size: 14px;
+          i {
+            margin-right: 1px;
+            font-size: 14px;
+          }
+        }
       }
-      i {
-        color: #f4ea2a;
-      }
-    }
-    .recommand-tags {
-      .el-tag {
-        background: transparent;
-        margin-right: 6px;
-      }
-      .custom-tag {
-        // height: 40px;
-        background: transparent;
-        transition: all 0.3s ease;
-        position: relative;
-        display: inline-block;
-      }
-      .tag-red:after {
-        position: absolute;
-        content: '';
-        width: 0;
-        height: 100%;
-        top: 0;
-        right: 0;
-        z-index: -1;
-        background-color: #da5a5a;
-        transition: all 0.3s ease;
-      }
-
-      .tag-red:hover {
-        color: #fff;
-      }
-
-      .tag-red:hover:after {
-        left: 0;
+      .recommand-addtress {
+        font-size: 14px;
+        margin-bottom: 6px;
         width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
-      .tag-white:after {
-        position: absolute;
-        content: '';
-        width: 0;
-        height: 100%;
-        top: 0;
-        right: 0;
-        z-index: -1;
-        background-color: #7d7d7d;
-        transition: all 0.3s ease;
+      .recommand-rate {
+        font-size: 14px;
+        margin-bottom: 6px;
+        span {
+          margin-right: 5px;
+        }
+        i {
+          color: #f4ea2a;
+        }
       }
+      .recommand-tags {
+        .el-tag {
+          background: transparent;
+          margin-right: 4px;
+        }
+        .custom-tag {
+          // height: 40px;
+          background: transparent;
+          transition: all 0.3s ease;
+          position: relative;
+          display: inline-block;
+        }
+        .tag-red:after {
+          position: absolute;
+          content: '';
+          width: 0;
+          height: 100%;
+          top: 0;
+          right: 0;
+          z-index: -1;
+          background-color: #da5a5a;
+          transition: all 0.3s ease;
+        }
 
-      .tag-white:hover {
-        color: #fff;
-      }
+        .tag-red:hover {
+          color: #fff;
+        }
 
-      .tag-white:hover:after {
-        left: 0;
-        width: 100%;
-      }
-    }
-    .recommand-img {
-      .img-item {
-        width: 100px;
-        height: 120px;
-        margin-right: 24px;
+        .tag-red:hover:after {
+          left: 0;
+          width: 100%;
+        }
+        .tag-white:after {
+          position: absolute;
+          content: '';
+          width: 0;
+          height: 100%;
+          top: 0;
+          right: 0;
+          z-index: -1;
+          background-color: #7d7d7d;
+          transition: all 0.3s ease;
+        }
+
+        .tag-white:hover {
+          color: #fff;
+        }
+
+        .tag-white:hover:after {
+          left: 0;
+          width: 100%;
+        }
       }
     }
   }
