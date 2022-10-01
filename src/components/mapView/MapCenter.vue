@@ -1,3 +1,4 @@
+
 <template>
     <div class="map-center" id="map">
         <pre id="location">经纬度：{{ mouseLon + "," + mouseLat }}</pre>
@@ -29,6 +30,8 @@ export default {
             .then((res) => {
                 // setTimeout(function(){alert("shjs")},1000)
                 this.flyToPosition(this.lon, this.lat);
+                this.$store.commit("SET_LONGITUDE", this.lon);
+                this.$store.commit("SET_LATITUDE", this.lat);
             })
             .catch((err) => {
                 alert("位置信息获取失败");
