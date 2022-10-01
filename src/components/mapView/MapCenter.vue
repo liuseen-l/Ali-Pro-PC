@@ -81,6 +81,8 @@ export default {
             this.map.on("click", (e) => {
                 const { lng, lat } = e.lngLat;
                 console.log(lng, lat);
+                this.$store.commit("SET_LONGITUDE", lng);
+                this.$store.commit("SET_LATITUDE", lat);
             });
             var scale = new mapboxgl.ScaleControl({
                 maxWidth: 100,
