@@ -21,6 +21,8 @@ export default {
   },
   mounted() {
     this.initMap();
+    this.$store.commit('SET_LONGITUDE', 120.3572);
+    this.$store.commit('SET_LATITUDE', 36.101);
   },
   methods: {
     //初始化地图

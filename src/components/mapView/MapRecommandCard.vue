@@ -3,12 +3,16 @@
     <div class="recommand-item">
       <div class="item-left">
         <div class="recommand-img">
-          <el-image class="img-item" :src="data.url" fit="fill"></el-image>
+          <el-image class="img-item" v-if="data.photos.length>0" :src="data.photos[0].url"
+                    fit="fill">
+          </el-image>
+          <el-image v-else class="img-item" fit="fill">
+          </el-image>
         </div>
       </div>
       <div class="item-right">
         <div class="recommand-title">
-          <div class="title-name">{{data.title}}</div>
+          <div class="title-name">{{data.name}}</div>
           <div class="title-hot">火爆值：
             <i v-for="(num,idx) in data.hot" :key="idx" class="iconfont icon-fire"
                style="color:red"></i>
@@ -17,7 +21,8 @@
         <el-tooltip effect="dark" :content="data.location" :disabled="showTip" placement="left">
           <div class="recommand-addtress" @mouseover="locationMouseOver(`${data.location}-index`)">
             <i class="el-icon-location-information"></i>
-            <span :ref="`${data.location}-index`"> {{data.location}}</span>
+            <span :ref="`${data.location}-index`">
+              {{`${data.pname}${data.cityname}${data.adname}${data.address}`}}(距离：{{data.distance}}m)</span>
           </div>
         </el-tooltip>
         <div class="recommand-rate">
