@@ -2,14 +2,20 @@
   <div class="map-recommand">
     <div class="content">
       <div class="content-header">
-        <button class="custom-btn btn-3 active"><span>热门地点</span></button>
-        <button class="custom-btn btn-3"><span>周边推荐</span></button>
+        <button :class="[{active:tab==1},'custom-btn','btn-3'] "
+                @click="showPlaces"><span>热门地点</span></button>
+        <button :class="[{active:tab==2},'custom-btn','btn-3'] "
+                @click="showProducts"><span>周边推荐</span></button>
       </div>
       <div class="content-body">
-        <div class="recommand-list">
+        <div v-if="tab==1" class="recommand-list">
           <el-scrollbar style="height:100%">
             <map-recommand-card v-for="(item,index) in recommandPlaces" :key="index" :data="item">
             </map-recommand-card>
+          </el-scrollbar>
+        </div>
+        <div v-else class="recommand-list">
+          <el-scrollbar style="height:100%">
           </el-scrollbar>
         </div>
       </div>
@@ -26,20 +32,22 @@ export default {
   },
   data() {
     return {
-      activeName: 'first',
+      tab: 1,
       recommandPlaces: [
         {
           title: '四季酒店（五山店）',
-          location: '北京市朝阳区酒仙桥路102号(地铁朝阳门站D口直行500m)',
+          location: '广州市天河区天河路104号（地铁体育西站D口直行500m）',
           hot: 5,
           score: '4.6',
+          url: 'https://dd-static.jd.com/ddimg/jfs/t1/21848/11/20098/43348/633658f5E1fa049a1/66dd6f1e5c6a17a8.jpg',
           tags: ['预约发票', '近核酸点', '近地铁'],
         },
         {
-          title: '四季酒店（五山店）',
-          location: '北京市朝阳区酒仙桥路102号(地铁朝阳门站D口直行500m)',
+          title: '江南本家韩式碳烤肉/烤鳗鱼（岗顶石牌东店）',
+          location: '广州市天河区天河城5F',
           hot: 5,
           score: '4.6',
+          url: 'https://dd-static.jd.com/ddimg/jfs/t1/130127/17/27647/12238/6337b853Eb6efda89/a5684a4e7f019a12.png',
           tags: ['预约发票', '近核酸点', '近地铁'],
         },
         {
@@ -47,6 +55,7 @@ export default {
           location: '北京市朝阳区酒仙桥路102号(地铁朝阳门站D口直行500m)',
           hot: 4,
           score: '4.6',
+          url: 'https://dd-static.jd.com/ddimg/jfs/t1/38322/29/19612/88117/6337b881Eaa075d81/524e03252e72bcd7.jpg',
           tags: ['预约发票', '近核酸点', '近地铁'],
         },
         {
@@ -54,6 +63,7 @@ export default {
           location: '北京市朝阳区酒仙桥路102号(地铁朝阳门站D口直行500m)',
           hot: 4,
           score: '4.6',
+          url: 'https://dd-static.jd.com/ddimg/jfs/t1/104415/23/26535/41190/6337b894E71855833/802011af2cf44b81.jpg',
           tags: ['预约发票', '近核酸点', '近地铁'],
         },
         {
@@ -61,6 +71,7 @@ export default {
           location: '北京市朝阳区酒仙桥路102号(地铁朝阳门站D口直行500m)',
           hot: 3,
           score: '4.6',
+          url: 'https://dd-static.jd.com/ddimg/jfs/t1/179124/21/27224/102445/6337b8a5Ef90c2954/de741a56c0d9ee1c.jpg',
           tags: ['预约发票', '近核酸点', '近地铁'],
         },
       ],
@@ -69,6 +80,12 @@ export default {
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    showPlaces() {
+      this.tab = 1;
+    },
+    showProducts() {
+      this.tab = 2;
     },
   },
 };
