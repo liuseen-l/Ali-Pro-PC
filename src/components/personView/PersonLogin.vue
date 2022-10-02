@@ -13,18 +13,37 @@
       <!-- 账号输入框 -->
       <div class="login-input">
         <div v-if="flag === false">
-          <input ref="username" type="text" name="" v-model="username" required="" />
+          <input
+            ref="username"
+            type="text"
+            name=""
+            v-model="username"
+            required=""
+          />
           <label for="">UserName</label>
-          <i v-show="username.length > 0" @click="clearInput(1)" class="iconfont icon-error"></i>
+          <i
+            v-show="username.length > 0"
+            @click="clearInput(1)"
+            class="iconfont icon-error"
+          ></i>
         </div>
         <div v-else>
-          <input type="text" name="" placeholder="手机号码" v-model="phone" required="" maxlength="11"
-                 class="login-input-phone" />
+          <input
+            type="text"
+            name=""
+            placeholder="手机号码"
+            v-model="phone"
+            required=""
+            maxlength="11"
+            class="login-input-phone"
+          />
         </div>
 
         <transition enter-active-class="animate__animated animate__headShake">
-          <div v-show="(usernameError && username.length === 0) || phoneError"
-               class="login-input-error">
+          <div
+            v-show="(usernameError && username.length === 0) || phoneError"
+            class="login-input-error"
+          >
             {{ news1 }}
           </div>
         </transition>
@@ -32,13 +51,25 @@
       <!-- 密码输入框 -->
       <div class="login-input">
         <template v-if="flag === false">
-          <input ref="password" type="password" name="" v-model="password" required="" />
+          <input
+            ref="password"
+            type="password"
+            name=""
+            v-model="password"
+            required=""
+          />
           <label for="">password</label>
         </template>
         <template v-else>
           <div class="login-input-message">
-            <input type="text" name="" placeholder="输入验证码" v-model="message" required=""
-                   maxlength="6" />
+            <input
+              type="text"
+              name=""
+              placeholder="输入验证码"
+              v-model="message"
+              required=""
+              maxlength="6"
+            />
             <button ref="sendBtn" @click="sendMessage" type="button">
               {{ messageNew }}
             </button>
@@ -46,8 +77,11 @@
         </template>
 
         <transition enter-active-class="animate__animated animate__headShake">
-          <div v-show="passwordError && password.length === 0" class="login-input-error">
-            请输入密码！
+          <div
+            v-show="passwordError && password.length === 0"
+            class="login-input-error"
+          >
+            {{ news2 }}
           </div>
         </transition>
       </div>
@@ -73,25 +107,25 @@
 
 <script>
 /* eslint-disable */
-import PersonFooter from '@/components/personView/PersonFooter/PersonFooter.vue';
+import PersonFooter from "@/components/personView/PersonFooter/PersonFooter.vue";
 export default {
-  name: 'PersonLogin',
+  name: "PersonLogin",
   components: {
     PersonFooter,
   },
   data() {
     return {
-      username: '', // 账号
-      password: '', // 密码
-      phone: '', // 手机号码
-      message: '', // 验证码
+      username: "", // 账号
+      password: "", // 密码
+      phone: "", // 手机号码
+      message: "", // 验证码
       usernameError: false,
       passwordError: false,
       phoneError: false,
       flag: false, // false 为账号密码登录 ，true 为手机验证码登录
-      news1: '', // 账号错误提示
-      news2: '', // 密码错误提示
-      messageNew: '发送验证码', //验证码倒计时
+      news1: "", // 账号错误提示
+      news2: "", // 密码错误提示
+      messageNew: "发送验证码", //验证码倒计时
     };
   },
 
@@ -99,7 +133,7 @@ export default {
     // 前往注册页面
     toRegister() {
       this.$router.push({
-        path: 'register',
+        path: "register",
       });
     },
     // 发送验证码
@@ -133,7 +167,7 @@ export default {
     clearInput(judge) {
       switch (judge) {
         case 1:
-          this.username = '';
+          this.username = "";
           break;
       }
     },
@@ -145,31 +179,33 @@ export default {
           if (this.username.length === 0 && this.password.length === 0) {
             this.usernameError = true;
             this.passwordError = true;
+            this.news1 = "请输入账号!";
+            this.news2 = "请输入密码!";
             this.$refs.username.focus();
           } else if (this.username.length === 0) {
             this.usernameError = true;
+            this.news1 = "请输入账号!";
             this.$refs.username.focus();
           } else {
             this.passwordError = true;
+            this.news2 = "请输入密码!";
             this.$refs.password.focus();
           }
           return;
         }
-        this.news1 = '请输入账号';
-        this.news2 = '请输入密码';
       } else {
         if (this.phone.length !== 11) {
           if (this.phone.length === 0) {
-            this.news1 = '请输入手机号码';
+            this.news1 = "请输入手机号码";
           } else if (this.phone.length !== 11) {
-            this.news1 = '手机格式错误';
+            this.news1 = "手机格式错误";
           }
           this.phoneError = true;
           return;
         }
       }
       this.$router.push({
-        path: '/map',
+        path: "/map",
       });
     },
     // 更换登录方式
@@ -180,10 +216,10 @@ export default {
         this.passwordError = false;
       } else {
         this.phoneError = false;
-        this.messageNew = '发送验证码';
+        this.messageNew = "发送验证码";
       }
-      this.news1 = '';
-      this.news2 = '';
+      this.news1 = "";
+      this.news2 = "";
       this.flag = !this.flag;
     },
   },
@@ -191,7 +227,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('../../assets/iconfont/iconfont.css');
+@import url("../../assets/iconfont/iconfont.css");
 .login {
   position: absolute;
   z-index: 9999;

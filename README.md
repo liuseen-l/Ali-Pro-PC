@@ -3,6 +3,10 @@
 ## Project setup
 ```
 npm install
+
+
+npm install mapbox-gl
+npm install --save mapbox-gl @mapbox/mapbox-gl-language
 ```
 
 ### Compiles and hot-reloads for development
@@ -49,3 +53,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 二. 注册页面完成
 三. 地图模型建立完成
 四. 聊天框初始框架搭建完毕
+
+### 9.30
+一. 合并了当前所有分支的代码 
+二. 开会总结了当前项目存在的一些问题
+二. 根据当前项目开发进度，重新安排了之后2天的开发工作
+
