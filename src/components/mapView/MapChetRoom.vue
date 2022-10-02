@@ -26,7 +26,7 @@ export default {
   data(){
     return {
       textarea:'',
-      username:'croy',
+      username:'',
       roomId:'1',
       roomArrayIndexOf:-1,
       msgArray:[]
@@ -50,9 +50,13 @@ export default {
       webSocket.send(dateSendReq)
       this.textarea = ''
       this.$store.dispatch('setTheChatRoom',dateSend)
-   
+      this.$forceUpdate() 
     },
     self_message(){
+      let localStorageArr =  JSON.parse(localStorage.getItem('UserArray'))
+      this.username = localStorageArr[0]
+      localStorageArr.pop()
+      localStorage.setItem('UserArray', JSON.stringify(localStorageArr)) 
       const send_message = document.getElementById("chat_middle_item");
       let theChatRoom = this.theChatRoom;
       let username = this.username;

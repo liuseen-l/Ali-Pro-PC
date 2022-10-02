@@ -168,10 +168,15 @@ export default {
           return;
         }
       }
-      //添加登录成功后在localStorage记录登录用户的用户名，用于聊天室识别
-      let usernameStorage = this.username
-      let keyName = 'user' + this.username;
-      localStorage.setItem(keyName, usernameStorage);
+      let localStorageArray = JSON.parse(localStorage.getItem('UserArray'))
+      if(localStorageArray){
+        localStorageArray.push(this.username);
+        localStorage.setItem('UserArray', JSON.stringify(localStorageArray));
+      }else{
+        let arr = []
+        arr.push(this.username)
+        localStorage.setItem('UserArray', JSON.stringify(arr));
+      }
       //修改路由跳转 添加携带参数
       this.$router.push({
         name:'chat',
