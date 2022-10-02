@@ -2,16 +2,24 @@
   <div class="map-recommand">
     <div class="content">
       <div class="content-header">
-        <!-- <<<<<<< HEAD
-        <button :class="[{active:tab==1},'custom-btn','btn-3'] "
-                @click="showRestaurants"><span>热门美食</span></button>
-        <button :class="[{active:tab==2},'custom-btn','btn-3'] "
-                @click="showScenery"><span>热门景点</span></button>
-======= -->
-        <button class="custom-btn btn-3 active"><span>热门地点</span></button>
-        <button class="custom-btn btn-3"><span>周边推荐</span></button>
-        <button class="custom-btn btn-3"><span>聊天室</span></button>
-        <!-- >>>>>>> 04c26115670787f6f7c56576066555c33d0262fa -->
+        <button
+          :class="[{ active: tab == 1 }, 'custom-btn', 'btn-3']"
+          @click="showRestaurants"
+        >
+          <span>热门美食</span>
+        </button>
+        <button
+          :class="[{ active: tab == 2 }, 'custom-btn', 'btn-3']"
+          @click="showScenery"
+        >
+          <span>热门景点</span>
+        </button>
+        <button
+          :class="[{ active: tab == 3 }, 'custom-btn', 'btn-3']"
+          @click="showChat"
+        >
+          <span>聊天室</span>
+        </button>
       </div>
       <div class="content-body">
         <div v-if="tab == 1" class="recommand-list">
@@ -25,7 +33,7 @@
             </map-recommand-card>
           </el-scrollbar>
         </div>
-        <div v-else class="recommand-list">
+        <div v-else-if="tab == 2" class="recommand-list">
           <el-scrollbar style="height: 100%">
             <map-recommand-card
               v-for="(item, index) in recommandPlaces"
@@ -35,6 +43,9 @@
             >
             </map-recommand-card>
           </el-scrollbar>
+        </div>
+        <div v-else-if="tab == 3" class="recommand-list">
+          
         </div>
       </div>
     </div>
@@ -174,6 +185,9 @@ export default {
     showScenery() {
       this.tab = 2;
       this.getScenery();
+    },
+    showChat() {
+      this.tab = 3;
     },
   },
 };
