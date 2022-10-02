@@ -33,9 +33,10 @@ export default {
     }
   },
   computed:{
+
     //获取聊天信息，监听数据变化
-    theChatRoom : function(){
-      return  this.$store.state.theChatRoom
+    theChatRoom : function(){  
+      return  this.$store.state.chat.theChatRoom
     }
   },
   methods:{
