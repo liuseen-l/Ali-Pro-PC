@@ -45,7 +45,6 @@
           </el-scrollbar>
         </div>
         <div v-else-if="tab == 3" class="recommand-list">
-          
         </div>
       </div>
     </div>
@@ -54,6 +53,7 @@
 
 <script>
 import MapRecommandCard from "@/components/mapView/MapRecommandCard";
+import MapChat from "@/components/mapView/MapChat.vue";
 import axios from "axios";
 export default {
   name: "MapCenter",
