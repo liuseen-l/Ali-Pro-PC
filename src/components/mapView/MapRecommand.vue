@@ -3,19 +3,23 @@
     <div class="content">
       <div class="content-header">
         <button :class="[{active:tab==1},'custom-btn','btn-3'] "
-                @click="showPlaces"><span>热门地点</span></button>
+                @click="showRestaurants"><span>热门美食</span></button>
         <button :class="[{active:tab==2},'custom-btn','btn-3'] "
-                @click="showProducts"><span>周边推荐</span></button>
+                @click="showScenery"><span>热门景点</span></button>
       </div>
       <div class="content-body">
         <div v-if="tab==1" class="recommand-list">
           <el-scrollbar style="height:100%">
-            <map-recommand-card v-for="(item,index) in recommandPlaces" :key="index" :data="item">
+            <map-recommand-card v-for="(item,index) in recommandPlaces" :type="'restaurant'"
+                                :key="index" :data="item">
             </map-recommand-card>
           </el-scrollbar>
         </div>
         <div v-else class="recommand-list">
           <el-scrollbar style="height:100%">
+            <map-recommand-card v-for="(item,index) in recommandPlaces" :type="'scenery'"
+                                :key="index" :data="item">
+            </map-recommand-card>
           </el-scrollbar>
         </div>
       </div>
@@ -88,17 +92,16 @@ export default {
     },
   },
   watch: {
-    longitude(n, o) {
-      this.getData();
+    longitude() {
+      this.tab == 1 ? this.getRestaurants() : this.getScenery();
     },
     latitude() {
-      console.log(111, this.latitude);
-      this.getData();
+      this.tab == 1 ? this.getRestaurants() : this.getScenery();
     },
   },
 
   methods: {
-    getData() {
+    getRestaurants() {
       axios({
         //请求方式为get
         method: 'get',
@@ -109,7 +112,7 @@ export default {
           key: 'df295ed980114633d24f5f186651247b',
           // location: '120.3572,36.1010',
           location: `${this.longitude},${this.latitude}`,
-          keywords: '美食',
+          keywords: '餐饮',
           radius: 1000,
           offset: 5,
           page: 1,
@@ -124,11 +127,39 @@ export default {
           console.log(error);
         });
     },
-    showPlaces() {
-      this.tab = 1;
+    getScenery() {
+      axios({
+        //请求方式为get
+        method: 'get',
+        //绝对路径
+        url: 'http://restapi.amap.com/v3/place/around',
+        //其他设置省略
+        params: {
+          key: 'df295ed980114633d24f5f186651247b',
+          // location: '120.3572,36.1010',
+          location: `${this.longitude},${this.latitude}`,
+          keywords: '风景',
+          radius: 1000,
+          offset: 5,
+          page: 1,
+          extensions: 'all',
+        },
+      })
+        .then((response) => {
+          this.recommandPlaces = response.data.pois;
+          console.log(response.data.pois);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    showProducts() {
+    showRestaurants() {
+      this.tab = 1;
+      this.getRestaurants();
+    },
+    showScenery() {
       this.tab = 2;
+      this.getScenery();
     },
   },
 };
