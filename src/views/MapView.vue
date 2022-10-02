@@ -6,7 +6,7 @@
       <!-- 地图展示区域 -->
       <MapCenter></MapCenter>
       <!-- chat 和 recommand 展示区域 ，二级路由 -->
-      <router-view></router-view>
+      <router-view :userKey="userKey" ></router-view>
     </div>
   </div>
 </template>
@@ -22,6 +22,14 @@ export default {
     MapCenter,
     // MapRecommand,
   },
+  data(){
+    return {
+      userKey : '',
+    }
+  },
+  mounted(){
+    this.userKey = this.$route.params.userKey
+  }
 };
 </script>
 <style lang="less" scoped>

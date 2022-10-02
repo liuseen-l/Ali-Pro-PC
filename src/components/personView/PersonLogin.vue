@@ -221,6 +221,16 @@ export default {
           return;
         }
       }
+      let localStorageArray = JSON.parse(localStorage.getItem("UserArray"));
+      if (localStorageArray) {
+        localStorageArray.push(this.username);
+        localStorage.setItem("UserArray", JSON.stringify(localStorageArray));
+      } else {
+        let arr = [];
+        arr.push(this.username);
+        localStorage.setItem("UserArray", JSON.stringify(arr));
+      }
+      //修改路由跳转 添加携带参数
       this.$router.push({
         path: "/map",
       });

@@ -6,6 +6,7 @@
                 @click="showRestaurants"><span>热门美食</span></button>
         <button :class="[{active:tab==2},'custom-btn','btn-3'] "
                 @click="showScenery"><span>热门景点</span></button>
+
       </div>
       <div class="content-body">
         <div v-if="tab==1" class="recommand-list">
