@@ -179,7 +179,7 @@ export default {
           return false;
         }
       });
-      
+
       // 如果没有同意使用条款直接返回,并提示
       if (!this.checked || flag) {
         this.giveError();

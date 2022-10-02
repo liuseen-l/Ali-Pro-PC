@@ -3,41 +3,72 @@
     <div class="recommand-item">
       <div class="item-left">
         <div class="recommand-img">
-          <el-image class="img-item" v-if="data.photos.length>0" :src="data.photos[0].url"
-                    fit="fill">
+          <el-image
+            class="img-item"
+            v-if="data.photos.length > 0"
+            :src="data.photos[0].url"
+            fit="fill"
+          >
           </el-image>
-          <el-image v-else class="img-item" fit="fill">
-          </el-image>
+          <el-image v-else class="img-item" fit="fill"> </el-image>
         </div>
       </div>
       <div class="item-right">
         <div class="recommand-title">
-          <div class="title-name">{{data.name}}</div>
-          <div class="title-hot">火爆值：
-            <i v-for="(num,idx) in data.hot" :key="idx" class="iconfont icon-fire"
-               style="color:red"></i>
+          <div class="title-name">{{ data.name }}</div>
+          <div class="title-hot">
+            火爆值：
+            <i
+              v-for="(num, idx) in data.hot"
+              :key="idx"
+              class="iconfont icon-fire"
+              style="color: red"
+            ></i>
           </div>
         </div>
-        <el-tooltip effect="dark" :content="data.location" :disabled="showTip" placement="left">
-          <div class="recommand-addtress" @mouseover="locationMouseOver(`${data.location}-index`)">
+        <el-tooltip
+          effect="dark"
+          :content="data.location"
+          :disabled="showTip"
+          placement="left"
+        >
+          <div
+            class="recommand-addtress"
+            @mouseover="locationMouseOver(`${data.location}-index`)"
+          >
             <i class="el-icon-location-information"></i>
             <span :ref="`${data.location}-index`">
-              {{`${data.pname}${data.cityname}${data.adname}${data.address}`}}(距离：{{data.distance}}m)</span>
+              {{
+                `${data.pname}${data.cityname}${data.adname}${data.address}`
+              }}(距离：{{ data.distance }}m)</span
+            >
           </div>
         </el-tooltip>
         <div class="recommand-rate">
-          <span>{{data.score}}分</span>
-          <i class="iconfont icon-star-fill "></i>
+          <span>{{ data.score }}分</span>
+          <i class="iconfont icon-star-fill"></i>
           <i class="iconfont icon-star-fill"></i>
           <i class="iconfont icon-star-fill"></i>
           <i class="iconfont icon-star-fill"></i>
           <i class="iconfont icon-star"></i>
         </div>
         <div class="recommand-tags">
-          <el-tag size="small" type="danger" effect="plain" class="custom-tag tag-red">百亿补贴
+          <el-tag
+            size="small"
+            type="danger"
+            effect="plain"
+            class="custom-tag tag-red"
+            >百亿补贴
           </el-tag>
-          <el-tag v-for="(ele,i) in data.tags" :key="i" size="small" type="info" effect="plain"
-                  class="custom-tag tag-white">{{ele}}</el-tag>
+          <el-tag
+            v-for="(ele, i) in data.tags"
+            :key="i"
+            size="small"
+            type="info"
+            effect="plain"
+            class="custom-tag tag-white"
+            >{{ ele }}</el-tag
+          >
         </div>
       </div>
     </div>
@@ -46,7 +77,7 @@
 
 <script>
 export default {
-  name: 'MapRecommandCard',
+  name: "MapRecommandCard",
   props: {
     data: { type: Object, default: () => {} },
   },
@@ -144,7 +175,7 @@ export default {
         }
         .tag-red:after {
           position: absolute;
-          content: '';
+          content: "";
           width: 0;
           height: 100%;
           top: 0;
@@ -164,7 +195,7 @@ export default {
         }
         .tag-white:after {
           position: absolute;
-          content: '';
+          content: "";
           width: 0;
           height: 100%;
           top: 0;
@@ -206,7 +237,7 @@ export default {
   .recommand-item::after,
   .recommand-item::before {
     pointer-events: none;
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     width: 80%;
