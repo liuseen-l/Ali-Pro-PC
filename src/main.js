@@ -14,13 +14,13 @@ import 'normalize.css/normalize.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/css/reset.css'
-import store from "./store/index.js"
 import animated from 'animate.css'
 
 Vue.use(animated)
 
+
+import store from './store/index'
 Vue.use(store)
-// import store from './store'
 
 // 引入element-ui
 Vue.use(ElementUI)

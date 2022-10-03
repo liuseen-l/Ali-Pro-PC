@@ -166,11 +166,11 @@ export default {
 </script>
 
 <style >
-  *{
+  .CheatRoom{
       padding: 0;
       margin: 0;
       font-family: Consolas,Microsoft YaHei UI,serif;
-      font-size: 22px;
+      font-size: 16px;
   }
   @keyframes
   fadeIn{
