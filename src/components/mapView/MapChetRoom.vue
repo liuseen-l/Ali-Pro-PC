@@ -10,8 +10,10 @@
         <i class="el-icon-chat-dot-round"></i>
         <i class="el-icon-more-outline"></i>
       </div>
-      <el-input v-model="textarea"></el-input>
-      <el-button type="" @click="send" size="mini">发送</el-button>
+      <textarea class="textarea" v-model="textarea" />
+      <el-button class="button" type="" @click="send" size="mini"
+        >发送</el-button
+      >
     </div>
   </div>
 </template>
@@ -27,6 +29,7 @@ export default {
       roomId: "1",
       roomArrayIndexOf: -1,
       msgArray: [],
+      url: "",
     };
   },
   computed: {
@@ -81,8 +84,10 @@ export default {
         current_room_information.Message_history.map((item, index) => {
           if (item.send_user == username) {
             const oLi = document.createElement("div");
+
             oLi.innerHTML =
-              `<div class="chat_right">
+              `
+                          <div class="chat_right">
                             <div class="chat_right_item">
                                 <div class="chat_right_name clearfix">` +
               item.send_user +
@@ -97,8 +102,10 @@ export default {
             send_message.scrollTop = send_message.scrollHeight;
           } else {
             const oLi = document.createElement("div");
+
             oLi.innerHTML =
-              `<div class="chat_left">
+              `
+                          <div class="chat_left">
                             <div class="chat_left_item">
                                 <div class="chat_left_name clearfix"> ` +
               item.send_user +
@@ -192,6 +199,7 @@ export default {
   font-family: Consolas, Microsoft YaHei UI, serif;
   font-size: 16px;
 }
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -199,9 +207,6 @@ export default {
   100% {
     opacity: 1;
   }
-}
-.CheatRoom {
-  padding: 10px;
 }
 .clearfix::after {
   content: "";
@@ -212,10 +217,22 @@ export default {
   line-height: 0;
   visibility: hidden;
 }
-
+.CheatRoom {
+  padding: 10px;
+}
+.textarea {
+  color: white;
+  margin-left: 5%;
+  margin-top: 10px;
+  width: 90%;
+  height: 100px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+}
 .chat_middle {
   width: 100%;
-  height: 435px;
+  height: 380px;
   position: relative;
   box-sizing: border-box;
   overflow: auto;
@@ -308,6 +325,23 @@ img.chat_right_img {
   color: darkgray;
   text-align: left;
 }
+.button {
+  background-color: #43434300;
+  color: white;
+  width: 90%;
+  margin-left: 5%;
+  padding: 10px 0px;
+  outline: none;
+}
+.button:hover {
+  background-color: #ffffff00;
+}
+.button:visited {
+  background-color: #ffffff00;
+}
+.button:foucs {
+  background-color: #ffffff00;
+}
 .chat_right_content {
   float: right;
   padding: 10px; /* changed */
@@ -361,17 +395,20 @@ img.chat_right_img {
   text-align: end;
 }
 .infoBottom {
-  background: #e8e8e8;
-  height: 30%;
+  background: #e8e8e800;
+  width: 100%;
+  height: 200px;
   display: flex;
   bottom: 0;
   flex-direction: column;
+  background: url("~@/assets/images/chat3.png") no-repeat;
 }
 .infoIcon {
-  height: 40px;
+  height: 30px;
   width: 100%;
   display: flex;
   align-items: center;
+  padding-left: 30px;
 }
 .infoIcon i {
   font-size: 24px;
@@ -386,7 +423,6 @@ img.chat_right_img {
   resize: none;
   padding: 10px;
   box-sizing: border-box;
-  background-color: #f2f2f2;
   color: #434343;
 }
 .fasong {
