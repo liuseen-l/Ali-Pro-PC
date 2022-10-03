@@ -7,7 +7,14 @@
 <script>
 import mapboxgl from "mapbox-gl";
 import MapboxLanguage from "@mapbox/mapbox-gl-language";
-import { tSObjectKeyword } from "@babel/types";
+import {
+  MapboxStyleDefinition,
+  MapboxStyleSwitcherControl,
+} from "mapbox-gl-style-switcher";
+import "mapbox-gl-style-switcher/styles.css";
+// import { tSObjectKeyword } from "@babel/types";
+import * as THREE from "three";
+import { Threebox } from "threebox-map";
 export default {
   name: "MapCenter",
   props: {
@@ -36,6 +43,7 @@ export default {
         alert("位置信息获取失败");
       });
   },
+
   methods: {
     //初始化地图
     initMap: function () {
@@ -52,6 +60,7 @@ export default {
         // bearing: -17.6, //地图的初始方向，值是北的逆时针度数，默认是0，即是正北
         antialias: true, ////抗锯齿，通过false关闭提升性能
         attributionControl: false,
+        projection: "globe", //地图投影
       });
       // //设置中文
       mapboxgl.setRTLTextPlugin(
@@ -60,6 +69,18 @@ export default {
       this.map.addControl(
         new MapboxLanguage({
           defaultLanguage: "zh-Hans",
+        })
+      );
+      // 地图定位控件
+      this.map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          // 当地图激活时，当设备的位置发生变化时，它会收到更新
+          trackUserLocation: true,
+          // 在定位点旁边画一个箭头来表示设备的方向.
+          showUserHeading: true,
         })
       );
       //加入缩放控件
@@ -83,13 +104,85 @@ export default {
         this.$store.commit("SET_LONGITUDE", lng);
         this.$store.commit("SET_LATITUDE", lat);
       });
+      const styles = [
+        {
+          title: "3D 建筑",
+          uri: "mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig",
+        },
+        {
+          title: "普通模式",
+          uri: "mapbox://styles/mapbox/streets-zh-v1",
+        },
+
+        {
+          title: "遥感影像",
+          uri: "mapbox://styles/mapbox/satellite-v9",
+        },
+        {
+          title: "3D 影像",
+          uri: "mapbox://styles/zhuqiqi123/cl8rcmkro000014pfow9a6k01",
+        },
+        {
+          title: "连绵山川",
+          uri: "mapbox://styles/zhuqiqi123/cl8rcui6h000514oc0ocgks0s",
+        },
+        {
+          title: "水墨地图",
+          uri: "mapbox://styles/zhuqiqi123/cl8rcf55b000r15o6wkjlf0gh",
+        },
+        {
+          title: "怀念年代",
+          uri: "mapbox://styles/zhuqiqi123/cl8rc4v3w000t15o9lapip4xx",
+        },
+        {
+          title: "游戏世界",
+          uri: "mapbox://styles/zhuqiqi123/cl8rccz7h002114mxzrctwb2r",
+        },
+      ];
+      const options = {
+        defaultStyle: "Dark",
+        eventListeners: {
+          // return true if you want to stop execution
+          //           onOpen: (event: MouseEvent) => boolean;
+          //           onSelect: (event: MouseEvent) => boolean;
+          //           onChange: (event: MouseEvent, style: string) => boolean;
+        },
+      };
+      this.map.addControl(new MapboxStyleSwitcherControl(styles, options));
       var scale = new mapboxgl.ScaleControl({
         maxWidth: 100,
         unit: "metric",
       });
       this.map.addControl(scale, "bottom-left");
-    },
 
+      // let tb = null;
+      // window.THREE = THREE;
+      // this.map.on("style.load", function () {
+      //     this.map.addLayer({
+      //         id: "custom_layer",
+      //         type: "custom",
+      //         renderingMode: "3d",
+      //         onAdd: function (map, mbxContext) {
+      //             window.tb = new Threebox(map, mbxContext, {
+      //                 defaultLights: true,
+      //             });
+      //             // 从外部导入obj文件，其大小扩大10倍
+      //             var options = {
+      //                 obj: "./models/girls.obj",
+      //                 mtl: "./models/girls.mtl",
+      //                 scale: 10,
+      //             };
+      //             tb.loadObj(options, function (model) {
+      //                 let truck = model.setCoords(origin);
+      //                 tb.add(truck);
+      //             });
+      //         },
+      //         render: function (gl, matrix) {
+      //             tb.update();
+      //         },
+      //     });
+      // });
+    },
     //获取位置信息异步函数
     locationFn() {
       let that = this;

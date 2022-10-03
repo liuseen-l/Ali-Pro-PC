@@ -8,6 +8,9 @@ npm install
 
 npm install mapbox-gl
 npm install --save mapbox-gl @mapbox/mapbox-gl-language
+nom install mapbox-gl-style-switcher
+npm install three --save
+npm install threebox-map --save
 ```
 
 ### Compiles and hot-reloads for development
