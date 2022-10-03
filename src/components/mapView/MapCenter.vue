@@ -62,6 +62,11 @@ export default {
                 attributionControl: false,
                 projection: "globe", //地图投影
             });
+            this.map.addControl(
+                new mapboxgl.AttributionControl({
+                    customAttribution: "仅用于内部学习",
+                })
+            );
             // //设置中文
             mapboxgl.setRTLTextPlugin(
                 "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"
@@ -157,33 +162,33 @@ export default {
             });
             this.map.addControl(scale, "bottom-left");
 
-            // let tb = null;
-            // window.THREE = THREE;
-            // this.map.on("style.load", function () {
-            //     this.map.addLayer({
-            //         id: "custom_layer",
-            //         type: "custom",
-            //         renderingMode: "3d",
-            //         onAdd: function (map, mbxContext) {
-            //             window.tb = new Threebox(map, mbxContext, {
-            //                 defaultLights: true,
-            //             });
-            //             // 从外部导入obj文件，其大小扩大10倍
-            //             var options = {
-            //                 obj: "./models/girls.obj",
-            //                 mtl: "./models/girls.mtl",
-            //                 scale: 10,
-            //             };
-            //             tb.loadObj(options, function (model) {
-            //                 let truck = model.setCoords(origin);
-            //                 tb.add(truck);
-            //             });
-            //         },
-            //         render: function (gl, matrix) {
-            //             tb.update();
-            //         },
-            //     });
-            // });
+            let tb = null;
+            window.THREE = THREE;
+            this.map.on("style.load", function () {
+                this.map.addLayer({
+                    id: "custom_layer",
+                    type: "custom",
+                    renderingMode: "3d",
+                    onAdd: function (map, mbxContext) {
+                        window.tb = new Threebox(map, mbxContext, {
+                            defaultLights: true,
+                        });
+                        // 从外部导入obj文件，其大小扩大10倍
+                        var options = {
+                            obj: "./models/girls.obj",
+                            mtl: "./models/girls.mtl",
+                            scale: 10,
+                        };
+                        tb.loadObj(options, function (model) {
+                            let truck = model.setCoords(origin);
+                            tb.add(truck);
+                        });
+                    },
+                    render: function (gl, matrix) {
+                        tb.update();
+                    },
+                });
+            });
         },
 
         //获取位置信息异步函数
