@@ -5,21 +5,21 @@
 </template>
 
 <script>
-import mapboxgl from "mapbox-gl";
-import MapboxLanguage from "@mapbox/mapbox-gl-language";
-import { tSObjectKeyword } from "@babel/types";
+import mapboxgl from 'mapbox-gl';
+import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import { tSObjectKeyword } from '@babel/types';
 export default {
-  name: "MapCenter",
+  name: 'MapCenter',
   props: {
     msg: String,
   },
   data() {
     return {
-      map: "", //地图
-      lon: "120", //用户经度
-      lat: "36", //用户纬度
-      mouseLon: "120", //鼠标经度
-      mouseLat: "36", //鼠标纬度
+      map: '', //地图
+      lon: '120', //用户经度
+      lat: '36', //用户纬度
+      mouseLon: '120', //鼠标经度
+      mouseLat: '36', //鼠标纬度
     };
   },
   mounted() {
@@ -29,11 +29,11 @@ export default {
       .then((res) => {
         // setTimeout(function(){alert("shjs")},1000)
         this.flyToPosition(this.lon, this.lat);
-        this.$store.commit("SET_LONGITUDE", this.lon);
-        this.$store.commit("SET_LATITUDE", this.lat);
+        this.$store.commit('SET_LONGITUDE', this.lon);
+        this.$store.commit('SET_LATITUDE', this.lat);
       })
       .catch((err) => {
-        alert("位置信息获取失败");
+        alert('位置信息获取失败');
       });
   },
   methods: {
@@ -41,10 +41,10 @@ export default {
     initMap: function () {
       // let that = this;
       mapboxgl.accessToken =
-        "pk.eyJ1Ijoiemh1cWlxaTEyMyIsImEiOiJjbDZwdThzOTkwNzd6M2JvODd4eXN0NXdrIn0.G6_v-vFX1Atl8tHwkKLLFQ";
+        'pk.eyJ1Ijoiemh1cWlxaTEyMyIsImEiOiJjbDZwdThzOTkwNzd6M2JvODd4eXN0NXdrIn0.G6_v-vFX1Atl8tHwkKLLFQ';
       this.map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig",
+        container: 'map',
+        style: 'mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig',
         center: [120.116, 36],
         // center: [116.34, 39.88],
         zoom: 2,
@@ -55,21 +55,21 @@ export default {
       });
       // //设置中文
       mapboxgl.setRTLTextPlugin(
-        "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"
+        'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js'
       );
       this.map.addControl(
         new MapboxLanguage({
-          defaultLanguage: "zh-Hans",
+          defaultLanguage: 'zh-Hans',
         })
       );
       //加入缩放控件
       var nav = new mapboxgl.NavigationControl();
-      this.map.addControl(nav, "top-left");
+      this.map.addControl(nav, 'top-left');
       // //去除mapbox logo
       // this.map._logoControl &&
       //     this.map.removeControl(this.map._logoControl);
       //获取鼠标位置，显示经纬度
-      this.map.on("mousemove", (e) => {
+      this.map.on('mousemove', (e) => {
         var location = this.map.queryRenderedFeatures(e.point);
         // this.lonlat= e.lngLat.lng.toFixed(4) +"," +e.lngLat.lat.toFixed(4)
         this.lonlat = 2134;
@@ -77,17 +77,17 @@ export default {
         this.mouseLat = e.lngLat.lat.toFixed(4);
       });
       //点击地图获取坐标
-      this.map.on("click", (e) => {
+      this.map.on('click', (e) => {
         const { lng, lat } = e.lngLat;
         console.log(lng, lat);
-        this.$store.commit("SET_LONGITUDE", lng);
-        this.$store.commit("SET_LATITUDE", lat);
+        this.$store.commit('SET_LONGITUDE', lng);
+        this.$store.commit('SET_LATITUDE', lat);
       });
       var scale = new mapboxgl.ScaleControl({
         maxWidth: 100,
-        unit: "metric",
+        unit: 'metric',
       });
-      this.map.addControl(scale, "bottom-left");
+      this.map.addControl(scale, 'bottom-left');
     },
 
     //获取位置信息异步函数
@@ -98,19 +98,19 @@ export default {
         function showError(error) {
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              alert("定位失败,用户拒绝请求地理定位");
+              alert('定位失败,用户拒绝请求地理定位');
               err();
               break;
             case error.POSITION_UNAVAILABLE:
-              alert("定位失败,位置信息是不可用");
+              alert('定位失败,位置信息是不可用');
               err();
               break;
             case error.TIMEOUT:
-              alert("定位失败,请求获取用户位置超时");
+              alert('定位失败,请求获取用户位置超时');
               err();
               break;
             case error.UNKNOWN_ERROR:
-              alert("定位失败,定位系统失效");
+              alert('定位失败,定位系统失效');
               err();
               break;
           }
@@ -129,7 +129,7 @@ export default {
             enableHighAccuracy: true,
           });
         } else {
-          alert("浏览器不支持地理定位。");
+          alert('浏览器不支持地理定位。');
           err();
         }
       });
@@ -145,11 +145,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "mapbox-gl/dist/mapbox-gl.css";
+@import 'mapbox-gl/dist/mapbox-gl.css';
 .map-center {
-  width: 65%;
+  width: 100%;
   height: 100%;
-  //   background-color: red;
 }
 #location {
   position: absolute;
