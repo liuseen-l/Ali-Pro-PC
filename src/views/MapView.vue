@@ -42,10 +42,10 @@ export default {
   min-width: 1024px;
   &-container {
     width: 100%;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 160px);
     display: flex;
     .map-bg {
-      padding: 30px;
+      padding: 24px 30px 24px 40px;
       width: 65%;
       height: 100%;
       background: url('~@/assets/images/map_bg.png') no-repeat;
