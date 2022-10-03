@@ -9,9 +9,9 @@
 
 const Ws = require('ws');
 let clients = []
-let init_server = function  (Ws) {
+let init_server = function (Ws) {
   const server = new Ws.Server({
-    port:3001
+    port: 3001
   });
   const init = () => {
     bindEvent();
@@ -30,20 +30,19 @@ let init_server = function  (Ws) {
       })
     })
   }
-  function handleOpen(e) {console.log('connection opened',e);}
-  function handleClose(e) {console.log('connection close',e);}
-  function handleError(e) {console.log('connection error',e);}
+  function handleOpen(e) { console.log('connection opened', e); }
+  function handleClose(e) { console.log('connection close', e); }
+  function handleError(e) { console.log('connection error', e); }
   function handleConnection(ws) {
     console.log('connection con');
-    ws.on('message',handleWsMessage)
+    ws.on('message', handleWsMessage)
   }
-  function handleWsMessage(message){
+  function handleWsMessage(message) {
     server.clients.forEach((c) => {
-      console.log(1,JSON.parse(message));
+      console.log(1, JSON.parse(message));
       c.send(message)
     })
   }
-
   init();
 }
 init_server(Ws);
