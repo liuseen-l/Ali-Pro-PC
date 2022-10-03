@@ -1,6 +1,13 @@
-<!-- Mr.Liu -->
 <template>
   <div class="login">
+    <div :class="['login-bc', isFoucs === true ? 'login-password' : '']">
+      <div class="login-bc-hand"></div>
+      <div class="login-bc-hand login-bc-hand-r"></div>
+      <div class="login-bc-arms">
+        <div class="login-bc-arms-arm"></div>
+        <div class="login-bc-arms-arm login-bc-arms-arm-r"></div>
+      </div>
+    </div>
     <form>
       <!-- 标题栏 -->
       <div class="login-header">
@@ -19,6 +26,8 @@
             name=""
             v-model="username"
             required=""
+            @focus="isFoucs = true"
+            @blur="isFoucs = false"
           />
           <label for="">UserName</label>
           <i
@@ -36,6 +45,8 @@
             required=""
             maxlength="11"
             class="login-input-phone"
+            @focus="isFoucs = true"
+            @blur="isFoucs = false"
           />
         </div>
 
@@ -57,6 +68,8 @@
             name=""
             v-model="password"
             required=""
+            @focus="isFoucs = true"
+            @blur="isFoucs = false"
           />
           <label for="">password</label>
         </template>
@@ -69,6 +82,8 @@
               v-model="message"
               required=""
               maxlength="6"
+              @focus="isFoucs = true"
+              @blur="isFoucs = false"
             />
             <button ref="sendBtn" @click="sendMessage" type="button">
               {{ messageNew }}
@@ -115,6 +130,7 @@ export default {
   },
   data() {
     return {
+      isFoucs: false,
       username: "", // 账号
       password: "", // 密码
       phone: "", // 手机号码
@@ -204,6 +220,16 @@ export default {
           return;
         }
       }
+      let localStorageArray = JSON.parse(localStorage.getItem("UserArray"));
+      if (localStorageArray) {
+        localStorageArray.push(this.username);
+        localStorage.setItem("UserArray", JSON.stringify(localStorageArray));
+      } else {
+        let arr = [];
+        arr.push(this.username);
+        localStorage.setItem("UserArray", JSON.stringify(arr));
+      }
+      //修改路由跳转 添加携带参数
       this.$router.push({
         path: "/map",
       });
@@ -249,6 +275,76 @@ export default {
   /* 边框圆角 */
   color: white;
   border-radius: 10px;
+
+  // 动画区域
+  &-password {
+    .login-bc-hand {
+      transform: translateX(42px) translateY(-15px) scale(0.7);
+      &-r {
+        transform: translateX(-42px) translateY(-15px) scale(0.7);
+      }
+    }
+    .login-bc-arms-arm {
+      transform: translateY(-40px) translateX(40px);
+      &-r {
+        transform: translateY(-40px) translateX(-40px) scaleX(-1);
+      }
+    }
+  }
+
+  &-bc {
+    width: 200px;
+    height: 108px;
+    /* 背景图片 */
+    background: url("../../assets/images/owl-login.png") no-repeat;
+    /* 绝对定位 */
+    position: absolute;
+    top: -100px;
+    /* 水平居中 */
+    left: 50%;
+    transform: translateX(-50%);
+
+    &-hand {
+      width: 34px;
+      height: 34px;
+      border-radius: 40px;
+      background-color: #472d20;
+      /* 绝对定位 */
+      position: absolute;
+      left: 12px;
+      bottom: -8px;
+      /* 沿Y轴缩放0.6倍（压扁） */
+      transform: scaleY(0.6);
+      /* 动画过渡 */
+      transition: 0.3s ease-out;
+      &-r {
+        left: 170px;
+      }
+    }
+
+    &-arms {
+      position: absolute;
+      top: 58px;
+      width: 100%;
+      height: 41px;
+      overflow: hidden;
+
+      &-arm {
+        width: 40px;
+        height: 65px;
+        position: absolute;
+        left: 20px;
+        top: 40px;
+        background: url("../../assets/images/owl-login-arm.png") no-repeat;
+        transform: rotate(-20deg);
+        transition: 0.3s ease-out;
+        &-r {
+          transform: rotate(20deg) scaleX(-1);
+          left: 158px;
+        }
+      }
+    }
+  }
 
   form {
     .login-header {
