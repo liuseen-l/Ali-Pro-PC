@@ -2,23 +2,45 @@
   <div class="map-recommand">
     <div class="content">
       <div class="content-header">
-        <button :class="[{active:tab==1},'custom-btn','btn-3'] "
-                @click="showRestaurants"><span>热门美食</span></button>
-        <button :class="[{active:tab==2},'custom-btn','btn-3'] "
-                @click="showScenery"><span>热门景点</span></button>
+        <button
+          :class="[{ active: tab == 1 }, 'custom-btn', 'btn-3']"
+          @click="showRestaurants"
+        >
+          <span>热门美食</span>
+        </button>
+        <button
+          :class="[{ active: tab == 2 }, 'custom-btn', 'btn-3']"
+          @click="showScenery"
+        >
+          <span>热门景点</span>
+        </button>
+        <button
+          :class="[{ active: tab == 3 }, 'custom-btn', 'btn-3']"
+          @click="showChat"
+        >
+          <span>聊天会话</span>
+        </button>
       </div>
       <div class="content-body">
-        <div v-if="tab==1" class="recommand-list">
-          <el-scrollbar style="height:100%">
-            <map-recommand-card v-for="(item,index) in recommandPlaces" :type="'restaurant'"
-                                :key="index" :data="item">
+        <div v-if="tab == 1" class="recommand-list">
+          <el-scrollbar style="height: 100%">
+            <map-recommand-card
+              v-for="(item, index) in recommandPlaces"
+              :type="'restaurant'"
+              :key="index"
+              :data="item"
+            >
             </map-recommand-card>
           </el-scrollbar>
         </div>
         <div v-else class="recommand-list">
-          <el-scrollbar style="height:100%">
-            <map-recommand-card v-for="(item,index) in recommandPlaces" :type="'scenery'"
-                                :key="index" :data="item">
+          <el-scrollbar style="height: 100%">
+            <map-recommand-card
+              v-for="(item, index) in recommandPlaces"
+              :type="'scenery'"
+              :key="index"
+              :data="item"
+            >
             </map-recommand-card>
           </el-scrollbar>
         </div>
@@ -28,10 +50,10 @@
 </template>
 
 <script>
-import MapRecommandCard from '@/components/mapView/MapRecommandCard';
-import axios from 'axios';
+import MapRecommandCard from "@/components/mapView/MapRecommandCard";
+import axios from "axios";
 export default {
-  name: 'MapCenter',
+  name: "MapCenter",
   components: {
     MapRecommandCard,
   },
@@ -101,22 +123,25 @@ export default {
   },
 
   methods: {
+    showChat() {
+      this.tab = 3;
+    },
     getRestaurants() {
       axios({
         //请求方式为get
-        method: 'get',
+        method: "get",
         //绝对路径
-        url: 'http://restapi.amap.com/v3/place/around',
+        url: "http://restapi.amap.com/v3/place/around",
         //其他设置省略
         params: {
-          key: 'df295ed980114633d24f5f186651247b',
+          key: "df295ed980114633d24f5f186651247b",
           // location: '120.3572,36.1010',
           location: `${this.longitude},${this.latitude}`,
-          keywords: '餐饮',
+          keywords: "餐饮",
           radius: 1000,
           offset: 5,
           page: 1,
-          extensions: 'all',
+          extensions: "all",
         },
       })
         .then((response) => {
@@ -130,19 +155,19 @@ export default {
     getScenery() {
       axios({
         //请求方式为get
-        method: 'get',
+        method: "get",
         //绝对路径
-        url: 'http://restapi.amap.com/v3/place/around',
+        url: "http://restapi.amap.com/v3/place/around",
         //其他设置省略
         params: {
-          key: 'df295ed980114633d24f5f186651247b',
+          key: "df295ed980114633d24f5f186651247b",
           // location: '120.3572,36.1010',
           location: `${this.longitude},${this.latitude}`,
-          keywords: '风景',
+          keywords: "风景",
           radius: 1000,
           offset: 5,
           page: 1,
-          extensions: 'all',
+          extensions: "all",
         },
       })
         .then((response) => {
@@ -168,7 +193,7 @@ export default {
 .map-recommand {
   width: 35%;
   height: 100%;
-  background: #0d2b61 url('~@/assets/images/recommend_bg.png') no-repeat;
+  background: #0d2b61 url("~@/assets/images/recommend_bg.png") no-repeat;
   background-size: 98% 98%;
   background-position: center;
   padding: 40px;
@@ -185,7 +210,7 @@ export default {
         border-top-left-radius: 16px;
         border-top-right-radius: 16px;
         padding: 10px 25px;
-        font-family: 'Lato', sans-serif;
+        font-family: "Lato", sans-serif;
         font-weight: 500;
         font-size: 16px;
         background: transparent;
@@ -223,7 +248,7 @@ export default {
       .btn-3:before,
       .btn-3:after {
         position: absolute;
-        content: '';
+        content: "";
         right: 0;
         top: 0;
         background: rgba(2, 126, 251, 1);
@@ -260,7 +285,7 @@ export default {
       .btn-3 span:before,
       .btn-3 span:after {
         position: absolute;
-        content: '';
+        content: "";
         left: 0;
         bottom: 0;
         background: rgba(2, 126, 251, 1);
@@ -294,7 +319,7 @@ export default {
       justify-content: center;
       align-items: center;
       &::before {
-        content: '';
+        content: "";
         background-image: conic-gradient(#689ee9 20deg, transparent 120deg);
         width: 150%;
         height: 150%;
@@ -303,7 +328,7 @@ export default {
         z-index: 1;
       }
       &::after {
-        content: '';
+        content: "";
         width: 98%;
         height: 99%;
         background: #0d2b61;
