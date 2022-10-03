@@ -4,13 +4,13 @@
 
 <script>
 export default {
-  name: "MapHeadTitle",
+  name: 'MapHeadTitle',
 };
 </script>
 
 <style lang="less" scoped>
 .title {
-  line-height: 80px;
+  line-height: 60px;
   font-size: 1.5rem;
 }
 </style>
