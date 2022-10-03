@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import MapHeadRight from "./MapHeadRight.vue";
-import MapHeadLogo from "./MapHeadLogo.vue";
-import MapHeadPositionCount from "./MapHeadPositionCount.vue";
-import MapHeadTitle from "./MapHeadTitle.vue";
-import MapHeadSearch from "./MapHeadSearch.vue";
+import MapHeadRight from './MapHeadRight.vue';
+import MapHeadLogo from './MapHeadLogo.vue';
+import MapHeadPositionCount from './MapHeadPositionCount.vue';
+import MapHeadTitle from './MapHeadTitle.vue';
+import MapHeadSearch from './MapHeadSearch.vue';
 
 export default {
-  name: "MapHeader",
+  name: 'MapHeader',
   components: {
     MapHeadLogo,
     MapHeadPositionCount,
@@ -36,7 +36,10 @@ export default {
 .header {
   max-width: 100%;
   height: 160px;
-  background: linear-gradient(#081a3c, #0d2b61);
+  // background: linear-gradient(#081a3c, #0d2b61);
+  background: url('~@/assets/images/head_bg.png') no-repeat;
+  // background-size: 98% 98%;
+  background-position: center;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   color: @font-color;
