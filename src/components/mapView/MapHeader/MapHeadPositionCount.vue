@@ -1,36 +1,36 @@
 <template>
   <div class="around-info">
-    <div v-for="item in list" :key="item.name">
+    <!-- <div v-for="item in list" :key="item.name">
       <HeadItem :count="item.count" :name="item.name" />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import HeadItem from "./HeadItem.vue";
+// import HeadItem from "./HeadItem.vue";
 
 export default {
-  name: "MapHeadPositionCount",
+  name: 'MapHeadPositionCount',
   components: {
-    HeadItem,
+    // HeadItem,
   },
   data() {
     return {
       list: [
         {
-          name: "酒店",
+          name: '酒店',
           count: 4,
         },
         {
-          name: "图书馆",
+          name: '图书馆',
           count: 1,
         },
         {
-          name: "健身房",
+          name: '健身房',
           count: 3,
         },
         {
-          name: "药店",
+          name: '药店',
           count: 10,
         },
       ],
