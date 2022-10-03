@@ -35,11 +35,11 @@ export default {
 
 .header {
   max-width: 100%;
-  height: 160px;
+  height: 138px;
   // background: linear-gradient(#081a3c, #0d2b61);
   background: url('~@/assets/images/head_bg.png') no-repeat;
   // background-size: 98% 98%;
-  background-position: center;
+  background-position: center bottom;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   color: @font-color;
