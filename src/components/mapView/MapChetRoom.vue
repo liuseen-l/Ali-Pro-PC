@@ -3,18 +3,19 @@
         <div class="chat_middle" id="chat_middle_item"></div>
           <!-- 输入框 -->
         <div class="infoBottom">
-        <div class="infoIcon">
-            <i
-            class="el-icon-picture-outline-round"
-            ></i>
-            <i  class="el-icon-sell"></i>
-            <i  class="el-icon-setting"></i>
-            <i  class="el-icon-chat-dot-round"></i>
-            <i  class="el-icon-more-outline"></i>
+            <div class="infoIcon">
+                <i
+                class="el-icon-picture-outline-round"
+                ></i>
+                <i  class="el-icon-sell"></i>
+                <i  class="el-icon-setting"></i>
+                <i  class="el-icon-chat-dot-round"></i>
+                <i  class="el-icon-more-outline"></i>
+            </div>
+             <textarea class="textarea" v-model="textarea"/>
+            <el-button class="button" type="" @click="send" size="mini">发送</el-button>
         </div>
-        <el-input v-model="textarea" ></el-input>
-        <el-button type="" @click="send" size="mini">发送</el-button>
-        </div>
+       
     </div>
 </template>
 
@@ -29,7 +30,8 @@ export default {
       username:'',
       roomId:'1',
       roomArrayIndexOf:-1,
-      msgArray:[]
+      msgArray:[],
+      url:''
     }
   },
   computed:{
@@ -85,7 +87,8 @@ export default {
         current_room_information.Message_history.map( (item,index) => {
           if(item.send_user == username){
             const oLi = document.createElement("div");
-            oLi.innerHTML=`<div class="chat_right">
+            oLi.innerHTML=`
+                          <div class="chat_right">
                             <div class="chat_right_item">
                                 <div class="chat_right_name clearfix">`+item.send_user + `</div>
                                 <span class="chat_right_content clearfix">`+item.send_content+` </span>
@@ -96,7 +99,8 @@ export default {
             send_message.scrollTop = send_message.scrollHeight;
           }else{
             const oLi = document.createElement("div");
-            oLi.innerHTML=`<div class="chat_left">
+            oLi.innerHTML=`
+                          <div class="chat_left">
                             <div class="chat_left_item">
                                 <div class="chat_left_name clearfix"> `+ item.send_user +`</div>
                                 <span class="chat_left_content clearfix">`+ item.send_content +`</span>
@@ -177,207 +181,235 @@ export default {
       0% {opacity:0}
       100% {opacity:1}
   }
+  .clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
   .CheatRoom{
     padding:10px;
   }
-  .clearfix::after{
-      content: "";
-      display: block;
-      clear: both;
-      width: 0;
-      height: 0;
-      line-height: 0;
-      visibility: hidden;
+  .textarea {
+    color: white;
+    margin-left : 5%;
+    margin-top: 10px;
+    width: 90%;
+    height: 100px;  
+    border: 1px solid rgba(0,0,0, 0);
+    background-color:rgba(0,0,0,0);
+    outline:none  
   }
-
   .chat_middle{
-      width: 100%;
-      height: 435px;
-      position: relative;
-      box-sizing: border-box;
-      overflow: auto;
-      border-width: 0;
-  }
-  .chat_middle::-webkit-scrollbar{  
-      display: none;
-  }
+    width: 100%;
+    height:380px;
+    position: relative;
+    box-sizing: border-box;
+    overflow: auto;
+    border-width: 0;
+}
+.chat_middle::-webkit-scrollbar{  
+    display: none;
+}
 
-  .chat_left{
-      width: 100%;
-      height: auto;
-      min-height: 100px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      animation-name: fadeIn;
-      animation-duration: 1.5s;
-      zoom:1;
-      display: inline-block;
-  }
-  img.chat_left_img{
-      width: 50px;
-      height: 50px;
-      float: left;
-      margin-top: 10px;
-      margin-left: 10px;
-      margin-right: 10px;
-      border-radius: 25px;
-  }
-  .chat_left_item{
-      width: auto;
-      max-width: calc(100% - 70px - 15px);
-      height: auto;
-      float: left;
-  }
-  .chat_left_item .chat_left_chat{
-      float: left;
-  }
-  .chat_left_item .chat_left_content{
-      padding: 10px; /* changed */
-      margin-top: 10px;
-      background-color: #f4f5f7;
-      color: black;
-      display: inline-block;
-      overflow: auto;
-      border-radius: 0 10px 10px 10px;
-      word-wrap:break-word;
-  word-break:break-all;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(20, 20, 20, 0.8);
-      align-items: center;
-  }
+.chat_left{
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    animation-name: fadeIn;
+    animation-duration: 1.5s;
+    zoom:1;
+    display: inline-block;
+}
+img.chat_left_img{
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 25px;
+}
+.chat_left_item{
+    width: auto;
+    max-width: calc(100% - 70px - 15px);
+    height: auto;
+    float: left;
+}
+.chat_left_item .chat_left_chat{
+    float: left;
+}
+.chat_left_item .chat_left_content{
+    padding: 10px; /* changed */
+    margin-top: 10px;
+    background-color: #f4f5f7;
+    color: black;
+    display: inline-block;
+    overflow: auto;
+    border-radius: 0 10px 10px 10px;
+    word-wrap:break-word;
+word-break:break-all;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(20, 20, 20, 0.8);
+    align-items: center;
+}
 
-  .chat_right{
-      width: 100%;
-      height: auto;
-      min-height: 100px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      animation-name: fadeIn;
-      animation-duration: 1.5s;
-      zoom:1;
-      display: inline-block;
-  }
-  img.chat_right_img{
-      width: 50px;
-      height: 50px;
-      float: right;
-      margin-top: 10px;
-      margin-left: 10px;
-      margin-right: 10px;
-      border-radius: 25px;
-  }
-  .chat_right_item{
-      width: auto;
-      max-width: calc(100% - 70px - 15px);
-      height: auto;
-      float: right;
-  }
-  .chat_time{
-      width: 100%;
-      text-align: center;
-      color: gray;
-  }
-  .chat_right_name{
-      color: darkgray;
-      text-align: right;
-  }
-  .chat_left_name{
-      color: darkgray;
-      text-align: left;
-  }
-  .chat_right_content{
-      float: right;
-      padding: 10px; /* changed */
-      margin-top: 10px;
-      border-radius: 10px 0 10px 10px;
-      background:wheat;
-      color: black;
-      word-wrap:break-word;
-  word-break:break-all;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(20, 20, 20, 0.8);
-      display: flex;
-      align-items: center;
-  }
+.chat_right{
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    animation-name: fadeIn;
+    animation-duration: 1.5s;
+    zoom:1;
+    display: inline-block;
+}
+img.chat_right_img{
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 25px;
+}
+.chat_right_item{
+    width: auto;
+    max-width: calc(100% - 70px - 15px);
+    height: auto;
+    float: right;
+}
+.chat_time{
+    width: 100%;
+    text-align: center;
+    color: gray;
+}
+.chat_right_name{
+    color: darkgray;
+    text-align: right;
+}
+.chat_left_name{
+    color: darkgray;
+    text-align: left;
+}
+.button{
+  background-color: #43434300;
+  color: white;
+  width:90%;
+  margin-left: 5%;
+  padding:10px 0px;
+  outline:none
+}
+.button:hover {
+  background-color: #ffffff00;
+}
+.button:visited {
+  background-color: #ffffff00;
+}
+.button:foucs{
+  background-color: #ffffff00;
+}
+.chat_right_content{
+    float: right;
+    padding: 10px; /* changed */
+    margin-top: 10px;
+    border-radius: 10px 0 10px 10px;
+    background:wheat;
+    color: black;
+    word-wrap:break-word;
+word-break:break-all;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(20, 20, 20, 0.8);
+    display: flex;
+    align-items: center;
+}
 
-  .split{
-      width: 100%;
-      height: 1px;
-      visibility: hidden;
-  }
+.split{
+    width: 100%;
+    height: 1px;
+    visibility: hidden;
+}
 
 .file{
-  width:100%;
-  height:auto;
-      min-height: 50px;
-  padding:10px; 
-  background-color: #f4f5f7;
-  border: 1px;
-      display: inline-block;
-  }
+width:100%;
+height:auto;
+    min-height: 50px;
+padding:10px; 
+background-color: #f4f5f7;
+border: 1px;
+    display: inline-block;
+}
 .fileinfo{ 
-  float:left;
+float:left;
 }
 .fileicon{ 
-  float:right; 
-  width:50px;
-      height: 50px;
+float:right; 
+width:50px;
+    height: 50px;
 }
 .filename{
-  word-wrap:break-word;
-  word-break:break-all;
-  overflow: hidden;
-      color: black;
-      display: inline-block;
+word-wrap:break-word;
+word-break:break-all;
+overflow: hidden;
+    color: black;
+    display: inline-block;
 }
 .filesize{
-  width:100px;
-      height: auto;
-  font-size:12px;
-  color: rgb(153, 153, 153);
-      text-align: end;
+width:100px;
+    height: auto;
+font-size:12px;
+color: rgb(153, 153, 153);
+    text-align: end;
 }
-  .infoBottom {
-      background: #e8e8e8;
-      height: 30%;
-      display: flex;
-      bottom: 0;
-      flex-direction: column;
-    }
-    .infoIcon {
-      height: 40px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-    }
-    .infoIcon i {
-      font-size: 24px;
-      color: #676767;
-      margin-left: 15px;
-      cursor: pointer;
-    }
-    .infoInput {
-      height: 58%;
-      width: 100%;
-      border: none;
-      resize: none;
-      padding: 10px;
-      box-sizing: border-box;
-      background-color: #f2f2f2;
-      color: #434343;
-    }
-    .fasong {
-      height: 30px;
-      width: 80px;
-      background-color: #e8e8e8;
-      text-align: center;
-      line-height: 30px;
-      border-radius: 4px;
-      color: #58df4d;
-      margin-top: 1%;
-      align-self: flex-end;
-      margin-right: 20px;
-      cursor: pointer;
-    }
+.infoBottom {
+    background: #e8e8e800;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    bottom: 0;
+    flex-direction: column;
+    background: url("~@/assets/images/chat3.png") no-repeat;
+}
+  .infoIcon {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+  }
+  .infoIcon i {
+    font-size: 24px;
+    color: #676767;
+    margin-left: 15px;
+    cursor: pointer;
+  }
+  .infoInput {
+    height: 58%;
+    width: 100%;
+    border: none;
+    resize: none;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #434343;
+  }
+  .fasong {
+    height: 30px;
+    width: 80px;
+    background-color: #e8e8e8;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 4px;
+    color: #58df4d;
+    margin-top: 1%;
+    align-self: flex-end;
+    margin-right: 20px;
+    cursor: pointer;
+  }
 
 </style>
