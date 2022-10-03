@@ -18,7 +18,7 @@
           :class="[{ active: tab == 3 }, 'custom-btn', 'btn-3']"
           @click="showChat"
         >
-          <span>聊天会话</span>
+          <span>聊天室</span>
         </button>
       </div>
       <div class="content-body">
@@ -33,7 +33,8 @@
             </map-recommand-card>
           </el-scrollbar>
         </div>
-        <div v-else class="recommand-list">
+
+        <div v-else-if="tab == 2" class="recommand-list">
           <el-scrollbar style="height: 100%">
             <map-recommand-card
               v-for="(item, index) in recommandPlaces"
@@ -44,6 +45,9 @@
             </map-recommand-card>
           </el-scrollbar>
         </div>
+        <div v-else-if="tab == 3" class="recommand-list">
+          <MapChetRoom />
+        </div>
       </div>
     </div>
   </div>
@@ -51,11 +55,14 @@
 
 <script>
 import MapRecommandCard from "@/components/mapView/MapRecommandCard";
+
+import MapChetRoom from "./MapChetRoom.vue";
 import axios from "axios";
 export default {
   name: "MapCenter",
   components: {
     MapRecommandCard,
+    MapChetRoom,
   },
   data() {
     return {
@@ -123,9 +130,6 @@ export default {
   },
 
   methods: {
-    showChat() {
-      this.tab = 3;
-    },
     getRestaurants() {
       axios({
         //请求方式为get
@@ -185,6 +189,9 @@ export default {
     showScenery() {
       this.tab = 2;
       this.getScenery();
+    },
+    showChat() {
+      this.tab = 3;
     },
   },
 };

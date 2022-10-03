@@ -1,4 +1,3 @@
-<!-- Mr.Liu -->
 <template>
   <div class="login">
     <div :class="['login-bc', isFoucs === true ? 'login-password' : '']">
