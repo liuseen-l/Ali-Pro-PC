@@ -171,7 +171,6 @@ mounted() {
 
 <style >
 .CheatRoom{
-    width: 100%;
     padding: 0;
     margin: 0;
     font-family: Consolas,Microsoft YaHei UI,serif;
@@ -195,11 +194,12 @@ fadeIn{
   padding:10px;
 }
 .textarea {
+  
   color: white;
-  margin-left : 5%;
+  margin-left : 7%;
   margin-top: 10px;
-  width: 90%;
-  height: 100px;  
+  width: 87%;
+  height: 50%;  
   border: 1px solid rgba(0,0,0, 0);
   background-color:rgba(0,0,0,0);
   outline:none  
@@ -302,8 +302,8 @@ img.chat_right_img{
 .button{
 background-color: #43434300;
 color: white;
-width:90%;
-margin-left: 5%;
+width:87%;
+margin-left: 7%;
 padding:10px 0px;
 outline:none
 }
@@ -370,17 +370,21 @@ color: rgb(153, 153, 153);
 }
 .infoBottom {
   background: #e8e8e800;
-  width: 100%;
-  height: 200px;
+  width:98%;
+  height: 240px;
   display: flex;
   bottom: 0;
   flex-direction: column;
   background: url("~@/assets/images/chat3.png") no-repeat;
+  background-position:center;
+  background-size: 98% 98%;
+  position: absolute;
 }
 .infoIcon {
-  height: 30px;
+  height: 35px;
   width: 100%;
   display: flex;
+  line-height:35px;
   align-items: center;
   padding-left: 30px;
 }
