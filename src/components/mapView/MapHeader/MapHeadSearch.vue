@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "MapHeadSearch",
+  name: 'MapHeadSearch',
 };
 </script>
 
@@ -17,15 +17,13 @@ export default {
 @font-color: #e9ecef;
 
 .search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   .search-bar {
     box-shadow: 0 2px 2px 2px #34edf5;
     border-radius: 5px;
-    padding: 10px 10px;
-
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .el-icon-search {
       margin: 0 5px;
       cursor: pointer;
