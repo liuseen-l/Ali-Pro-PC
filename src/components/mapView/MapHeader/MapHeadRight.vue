@@ -151,9 +151,9 @@ export default {
         cursor: pointer;
         padding: 6px 18px;
         color: @font-color;
-        font-weight: 600;
+        font-weight: 350;
         border: 0;
-        background: linear-gradient(45deg, transparent 5%, #ff013c 5%);
+        background: linear-gradient(45deg, transparent 5%, #234fe0 5%);
         letter-spacing: 3px;
         box-shadow: 3px 0 0 @cyan;
         outline: transparent;
@@ -172,7 +172,7 @@ export default {
           transparent 3%,
           @cyan 3%,
           @cyan 5%,
-          #ff013c 5%
+          #174cb6 5%
         );
         text-shadow: -0.5px -0.5px 0px #f8f005, 0.5px 0.5px 0px #00e6f6;
         clip-path: @--slice-0;
