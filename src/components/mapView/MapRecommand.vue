@@ -144,7 +144,7 @@ export default {
   // background: #0d2b61 url("~@/assets/images/recommend_bg.png") no-repeat;
   // background-size: 98% 98%;
   // background-position: center;
-  padding: 30px 30px 30px 20px;
+  padding: 24px 40px 24px 10px;
   .content {
     display: flex;
     flex-direction: column;
