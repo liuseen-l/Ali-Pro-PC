@@ -28,6 +28,64 @@ export default {
             lat: "36", //用户纬度
             mouseLon: "120", //鼠标经度
             mouseLat: "36", //鼠标纬度
+            markers: [
+                {
+                    color: "#ff0000",
+                    position: [108.937724, 34.354122],
+                    content: "位置1",
+                    offset: [-10, -20],
+                    direction: "right",
+                },
+                {
+                    color: "#ffffff",
+                    position: [114.057868, 22.535256],
+                    content: "位置2",
+                    offset: [10, 0],
+                    direction: "left",
+                },
+                {
+                    color: "#ffffff",
+                    position: [121.666072, 31.073487],
+                    content: "位置3",
+                    offset: [10, -20],
+                    direction: "left",
+                },
+                {
+                    color: "#ffffff",
+                    position: [13.782559, 53.241914],
+                    content: "位置4",
+                    offset: [-10, -20],
+                    direction: "right",
+                },
+                {
+                    color: "#ffffff",
+                    position: [151.107195, -33.80666],
+                    content: "位置5",
+                    offset: [-10, -10],
+                    direction: "right",
+                },
+                {
+                    color: "#ffffff",
+                    position: [-124.740278, 50.413675],
+                    content: "位置6",
+                    offset: [-10, -10],
+                    direction: "right",
+                },
+                {
+                    color: "#ffffff",
+                    position: [-115.243971, 32.761748],
+                    content: "位置7",
+                    offset: [-10, -10],
+                    direction: "right",
+                },
+                {
+                    color: "#ffffff",
+                    position: [-72.606031, 42.087923],
+                    content: "位置8",
+                    offset: [10, -10],
+                    direction: "left",
+                },
+            ],
         };
     },
     mounted() {
@@ -35,10 +93,17 @@ export default {
 
         this.locationFn()
             .then((res) => {
-                // setTimeout(function(){alert("shjs")},1000)
+                // setTimeout(function(){
+                // this.flyToPosition(this.lon, this.lat);
+                // },1000)
                 this.flyToPosition(this.lon, this.lat);
                 this.$store.commit("SET_LONGITUDE", this.lon);
                 this.$store.commit("SET_LATITUDE", this.lat);
+
+                
+                // this.map.on("load", function () {
+                //     this.flyToPosition(this.lon, this.lat);
+                // })
             })
             .catch((err) => {
                 alert("位置信息获取失败");
@@ -47,10 +112,11 @@ export default {
     methods: {
         //初始化地图
         initMap: function () {
+            var map=this.map;
             // let that = this;
             mapboxgl.accessToken =
                 "pk.eyJ1Ijoiemh1cWlxaTEyMyIsImEiOiJjbDZwdThzOTkwNzd6M2JvODd4eXN0NXdrIn0.G6_v-vFX1Atl8tHwkKLLFQ";
-            this.map = new mapboxgl.Map({
+            map = new mapboxgl.Map({
                 container: "map",
                 style: "mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig",
                 center: [120.116, 36],
@@ -62,8 +128,9 @@ export default {
                 attributionControl: false,
                 projection: "globe", //地图投影
             });
-            this.map.addControl(
+            map.addControl(
                 new mapboxgl.AttributionControl({
+                    compact: true,
                     customAttribution: "仅用于内部学习",
                 })
             );
@@ -71,13 +138,13 @@ export default {
             mapboxgl.setRTLTextPlugin(
                 "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"
             );
-            this.map.addControl(
+            map.addControl(
                 new MapboxLanguage({
                     defaultLanguage: "zh-Hans",
                 })
             );
             // 地图定位控件
-            this.map.addControl(
+            map.addControl(
                 new mapboxgl.GeolocateControl({
                     positionOptions: {
                         enableHighAccuracy: true,
@@ -90,25 +157,53 @@ export default {
             );
             //加入缩放控件
             var nav = new mapboxgl.NavigationControl();
-            this.map.addControl(nav, "top-left");
+            map.addControl(nav, "top-left");
             // //去除mapbox logo
             // this.map._logoControl &&
             //     this.map.removeControl(this.map._logoControl);
             //获取鼠标位置，显示经纬度
-            this.map.on("mousemove", (e) => {
-                var location = this.map.queryRenderedFeatures(e.point);
+            map.on("mousemove", (e) => {
+                var location = map.queryRenderedFeatures(e.point);
                 // this.lonlat= e.lngLat.lng.toFixed(4) +"," +e.lngLat.lat.toFixed(4)
                 this.lonlat = 2134;
                 this.mouseLon = e.lngLat.lng.toFixed(4);
                 this.mouseLat = e.lngLat.lat.toFixed(4);
             });
             //点击地图获取坐标
-            this.map.on("click", (e) => {
+            map.on("click", (e) => {
                 const { lng, lat } = e.lngLat;
                 console.log(lng, lat);
                 this.$store.commit("SET_LONGITUDE", lng);
                 this.$store.commit("SET_LATITUDE", lat);
             });
+            // 添加地图标注
+            this.markers.forEach(function (marker) {
+                const marker_on = new mapboxgl.Marker({
+                    color: marker.color,
+                    anchor: "center",
+                    draggable: false,
+                })
+                    .setLngLat(marker.position)
+                    .addTo(map);
+
+                const el = marker_on.getElement();
+                el.addEventListener("click", () => {
+                    window.alert(marker.content);
+                });
+
+                const popup = new mapboxgl.Popup({
+                    anchor: marker.direction,
+                    offset: marker.offset,
+                    className: "info",
+                    closeButton: false,
+                    closeOnClick: false,
+                    maxWidth: "200px",
+                })
+                    .setLngLat(marker.position)
+                    .setHTML(marker.content)
+                    .addTo(map);
+            });
+            // 添加图层管理器
             const styles = [
                 {
                     title: "3D 建筑",
@@ -153,19 +248,20 @@ export default {
                     //           onChange: (event: MouseEvent, style: string) => boolean;
                 },
             };
-            this.map.addControl(
+            map.addControl(
                 new MapboxStyleSwitcherControl(styles, options)
             );
+            // 添加比例尺
             var scale = new mapboxgl.ScaleControl({
                 maxWidth: 100,
                 unit: "metric",
             });
-            this.map.addControl(scale, "bottom-left");
-
+            map.addControl(scale, "bottom-left");
+            // 添加地图人物模型
             let tb = null;
             window.THREE = THREE;
-            this.map.on("style.load", function () {
-                this.map.addLayer({
+            map.on("style.load", function () {
+                map.addLayer({
                     id: "custom_layer",
                     type: "custom",
                     renderingMode: "3d",
