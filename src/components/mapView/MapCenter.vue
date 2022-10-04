@@ -16,6 +16,7 @@ import "mapbox-gl-style-switcher/styles.css";
 // import { tSObjectKeyword } from "@babel/types";
 import * as THREE from "three";
 import { Threebox } from "threebox-map";
+import axios from 'axios';
 export default {
     name: "MapCenter",
     props: {
@@ -24,8 +25,8 @@ export default {
     data() {
         return {
             map: "", //地图
-            lon: "120", //用户经度
-            lat: "36", //用户纬度
+            lon: "120.1187", //用户经度
+            lat: "36.0035", //用户纬度
             mouseLon: "120", //鼠标经度
             mouseLat: "36", //鼠标纬度
             markers: [
@@ -37,49 +38,49 @@ export default {
                     direction: "right",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [114.057868, 22.535256],
                     content: "位置2",
                     offset: [10, 0],
                     direction: "left",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [121.666072, 31.073487],
                     content: "位置3",
                     offset: [10, -20],
                     direction: "left",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [13.782559, 53.241914],
                     content: "位置4",
                     offset: [-10, -20],
                     direction: "right",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [151.107195, -33.80666],
                     content: "位置5",
                     offset: [-10, -10],
                     direction: "right",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [-124.740278, 50.413675],
                     content: "位置6",
                     offset: [-10, -10],
                     direction: "right",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [-115.243971, 32.761748],
                     content: "位置7",
                     offset: [-10, -10],
                     direction: "right",
                 },
                 {
-                    color: "#ffffff",
+                    color: "#ff0000",
                     position: [-72.606031, 42.087923],
                     content: "位置8",
                     offset: [10, -10],
@@ -90,7 +91,7 @@ export default {
     },
     mounted() {
         this.initMap();
-
+        this.flyToPosition(this.lon, this.lat);
         this.locationFn()
             .then((res) => {
                 // setTimeout(function(){
@@ -99,11 +100,6 @@ export default {
                 this.flyToPosition(this.lon, this.lat);
                 this.$store.commit("SET_LONGITUDE", this.lon);
                 this.$store.commit("SET_LATITUDE", this.lat);
-
-                
-                // this.map.on("load", function () {
-                //     this.flyToPosition(this.lon, this.lat);
-                // })
             })
             .catch((err) => {
                 alert("位置信息获取失败");
@@ -112,14 +108,14 @@ export default {
     methods: {
         //初始化地图
         initMap: function () {
-            var map=this.map;
+            var map = this.map;
             // let that = this;
             mapboxgl.accessToken =
                 "pk.eyJ1Ijoiemh1cWlxaTEyMyIsImEiOiJjbDZwdThzOTkwNzd6M2JvODd4eXN0NXdrIn0.G6_v-vFX1Atl8tHwkKLLFQ";
             map = new mapboxgl.Map({
                 container: "map",
                 style: "mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig",
-                center: [120.116, 36],
+                center: [120.1187, 36.0035],
                 // center: [116.34, 39.88],
                 zoom: 2,
                 // pitch: 60, //地图的角度，不写默认是0，取值是0-60度
@@ -248,15 +244,19 @@ export default {
                     //           onChange: (event: MouseEvent, style: string) => boolean;
                 },
             };
-            map.addControl(
-                new MapboxStyleSwitcherControl(styles, options)
-            );
+            map.addControl(new MapboxStyleSwitcherControl(styles, options));
             // 添加比例尺
             var scale = new mapboxgl.ScaleControl({
                 maxWidth: 100,
                 unit: "metric",
             });
             map.addControl(scale, "bottom-left");
+
+            map.flyTo({
+                center: [this.lon, this.lat], // 中心点
+                zoom: 16.5, // 缩放比例
+                pitch: 45, // 倾斜度
+            });
             // 添加地图人物模型
             let tb = null;
             window.THREE = THREE;
@@ -334,11 +334,38 @@ export default {
             });
         },
         flyToPosition(lon, lat) {
-            this.map.flyTo({
-                center: [this.lon, this.lat], // 中心点
-                zoom: 16.5, // 缩放比例
-                pitch: 45, // 倾斜度
-            });
+            // let map = this.map;
+            // console.log("sjjs" + lon);
+            // map.flyTo({
+            //     center: [this.lon, this.lat], // 中心点
+            //     zoom: 16.5, // 缩放比例
+            //     pitch: 45, // 倾斜度
+            // });
+        },
+        getRounddata() {
+            axios({
+                //请求方式为get
+                method: "get",
+                //绝对路径
+                url: "http://restapi.amap.com/v3/place/around",
+                //其他设置省略
+                params: {
+                    key: "df295ed980114633d24f5f186651247b",
+                    // location: '120.3572,36.1010',
+                    location: `${this.longitude},${this.latitude}`,
+                    keywords: "美食",
+                    radius: 1000,
+                    offset: 5,
+                    page: 1,
+                    extensions: "all",
+                },
+            })
+                .then((response) => {
+                    this.markers = response.data.pois;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
     },
 };
