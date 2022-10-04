@@ -266,13 +266,13 @@ export default {
                     type: "custom",
                     renderingMode: "3d",
                     onAdd: function (map, mbxContext) {
-                        window.tb = new Threebox(map, mbxContext, {
+                        tb = new Threebox(map, mbxContext, {
                             defaultLights: true,
                         });
                         // 从外部导入obj文件，其大小扩大10倍
                         var options = {
-                            obj: "./models/girls.obj",
-                            mtl: "./models/girls.mtl",
+                            obj: "http://onegiser.cn/models/girls.obj",
+                            mtl: "http://onegiser.cn/models/girls.mtl",
                             scale: 10,
                         };
                         tb.loadObj(options, function (model) {
