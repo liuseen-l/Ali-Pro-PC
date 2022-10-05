@@ -15,7 +15,7 @@ import "mapbox-gl-style-switcher/styles.css";
 // import { tSObjectKeyword } from "@babel/types";
 import * as THREE from "three";
 import { Threebox } from "threebox-map";
-import axios from 'axios';
+import axios from "axios";
 export default {
     name: "MapCenter",
     props: {
@@ -88,6 +88,8 @@ export default {
             ],
         };
     },
+
+
     mounted() {
         this.initMap();
         this.flyToPosition(this.lon, this.lat);
@@ -106,11 +108,22 @@ export default {
     },
     computed: {
         searchInfo() {
-            console.log(this.$store.getters.searchInfo.longitude);
+            console.log(this.$store.getters.searchInfo);
             let lon = this.$store.getters.searchInfo.longitude;
             let lat = this.$store.getters.searchInfo.latitude;
-            this.flyToPosition(lon, lat);
+            // this.flyToPosition(lon, lat);
             return this.$store.getters.searchInfo;
+        },
+    },
+    watch: {
+        searchInfo(n, o) {
+            let lon = this.$store.getters.searchInfo.longitude;
+            let lat = this.$store.getters.searchInfo.latitude;
+            this.map.flyTo({
+                center: [lon, lat], // 中心点
+                zoom: 16.5, // 缩放比例
+                pitch: 45, // 倾斜度
+            });
         },
     },
     methods: {
@@ -288,7 +301,6 @@ export default {
                     loader.load("./models/34M_17.gltf", (gltf) => {
                         this.scene.add(gltf.scene);
                     });
-                    
 
                     // use the Mapbox GL JS map canvas for three.js
                     this.renderer = new THREE.WebGLRenderer({
