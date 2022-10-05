@@ -1,6 +1,6 @@
 <template>
   <div id="logo-contianer">
-    <img src="../../../assets/images/alibabagroup.svg" alt="" />
+    <img src="../../../assets/images/logo-smart-city.png" alt="" />
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
   margin: 5px 0;
 
   img {
-    width: 200px;
+    width: 220px;
+    padding-top: 10px;
   }
 }
 </style>

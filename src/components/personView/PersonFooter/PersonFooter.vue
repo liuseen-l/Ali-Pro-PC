@@ -10,12 +10,21 @@
       <i class="iconfont icon-github1"></i>
       <i class="iconfont icon-24gf-ellipsis"></i>
     </div>
+    <div @click="toHomepage" class="back-to-home">返回首页</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "PersonFooter",
+  methods: {
+    // 前往注册页面
+    toHomepage() {
+      this.$router.push({
+        path: "/map",
+      });
+    }
+  }
 };
 </script>
 
@@ -81,6 +90,18 @@ export default {
         color: white;
         background-color: gainsboro;
       }
+    }
+  }
+
+  .back-to-home {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #59bce0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      cursor: pointer;
     }
   }
 }
