@@ -116,11 +116,11 @@ export default {
     methods: {
         //初始化地图
         initMap: function () {
-            var map = this.map;
+            // var map = this.map;
             // let that = this;
             mapboxgl.accessToken =
                 "pk.eyJ1Ijoiemh1cWlxaTEyMyIsImEiOiJjbDZwdThzOTkwNzd6M2JvODd4eXN0NXdrIn0.G6_v-vFX1Atl8tHwkKLLFQ";
-            map = new mapboxgl.Map({
+            this.map = new mapboxgl.Map({
                 container: "map",
                 style: "mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig",
                 center: [120.1187, 36.0035],
@@ -132,7 +132,7 @@ export default {
                 attributionControl: false,
                 projection: "globe", //地图投影
             });
-            map.addControl(
+            this.map.addControl(
                 new mapboxgl.AttributionControl({
                     compact: true,
                     customAttribution: "仅用于内部学习",
