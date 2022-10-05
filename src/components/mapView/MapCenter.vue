@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 import mapboxgl from "mapbox-gl";
 import MapboxLanguage from "@mapbox/mapbox-gl-language";
 import {
@@ -14,7 +15,9 @@ import {
 import "mapbox-gl-style-switcher/styles.css";
 // import { tSObjectKeyword } from "@babel/types";
 import * as THREE from "three";
-import { Threebox } from "threebox-map";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 export default {
     name: "MapCenter",
     props: {
@@ -43,6 +46,8 @@ export default {
             .catch((err) => {
                 alert("位置信息获取失败");
             });
+        
+        
     },
     computed: {
         searchInfo() {
@@ -84,6 +89,7 @@ export default {
                 attributionControl: false,
                 projection: "globe", //地图投影
             });
+
             // //设置中文
             mapboxgl.setRTLTextPlugin(
                 "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"
@@ -93,6 +99,8 @@ export default {
                     defaultLanguage: "zh-Hans",
                 })
             );
+            // 全屏按钮
+            this.map.addControl(new mapboxgl.FullscreenControl());
             // 地图定位控件
             this.map.addControl(
                 new mapboxgl.GeolocateControl({
@@ -105,9 +113,11 @@ export default {
                     showUserHeading: true,
                 })
             );
+            Vue.prototype.$map = this.map;
             //加入缩放控件
             var nav = new mapboxgl.NavigationControl();
             this.map.addControl(nav, "top-left");
+
             // //去除mapbox logo
             // this.map._logoControl &&
             //     this.map.removeControl(this.map._logoControl);
@@ -179,113 +189,6 @@ export default {
             });
             this.map.addControl(scale, "bottom-left");
 
-            // parameters to ensure the model is georeferenced correctly on the map
-            const modelOrigin = [this.lon, this.lat];
-            const modelAltitude = 0;
-            const modelRotate = [Math.PI / 2, 0, 0];
-
-            const modelAsMercatorCoordinate =
-                mapboxgl.MercatorCoordinate.fromLngLat(
-                    modelOrigin,
-                    modelAltitude
-                );
-
-            // transformation parameters to position, rotate and scale the 3D model onto the map
-            const modelTransform = {
-                translateX: modelAsMercatorCoordinate.x,
-                translateY: modelAsMercatorCoordinate.y,
-                translateZ: modelAsMercatorCoordinate.z,
-                rotateX: modelRotate[0],
-                rotateY: modelRotate[1],
-                rotateZ: modelRotate[2],
-                /* Since the 3D model is in real world meters, a scale transform needs to be
-                 * applied since the CustomLayerInterface expects units in MercatorCoordinates.
-                 */
-                scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
-            };
-
-            const THREE = window.THREE;
-
-            // configuration of the custom layer for a 3D model per the CustomLayerInterface
-            const customLayer = {
-                id: "3d-model",
-                type: "custom",
-                renderingMode: "3d",
-                onAdd: function (map, gl) {
-                    this.camera = new THREE.Camera();
-                    this.scene = new THREE.Scene();
-
-                    // create two three.js lights to illuminate the model
-                    const directionalLight = new THREE.DirectionalLight(
-                        0xffffff
-                    );
-                    directionalLight.position.set(0, -70, 100).normalize();
-                    this.scene.add(directionalLight);
-
-                    const directionalLight2 = new THREE.DirectionalLight(
-                        0xffffff
-                    );
-                    directionalLight2.position.set(0, 70, 100).normalize();
-                    this.scene.add(directionalLight2);
-
-                    // use the three.js GLTF loader to add the 3D model to the three.js scene
-                    // 'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
-                    const loader = new THREE.GLTFLoader();
-                    loader.load("./models/34M_17.gltf", (gltf) => {
-                        this.scene.add(gltf.scene);
-                    });
-
-                    // use the Mapbox GL JS map canvas for three.js
-                    this.renderer = new THREE.WebGLRenderer({
-                        canvas: this.map.getCanvas(),
-                        context: gl,
-                        antialias: true,
-                    });
-
-                    this.renderer.autoClear = false;
-                },
-                render: function (gl, matrix) {
-                    const rotationX = new THREE.Matrix4().makeRotationAxis(
-                        new THREE.Vector3(1, 0, 0),
-                        modelTransform.rotateX
-                    );
-                    const rotationY = new THREE.Matrix4().makeRotationAxis(
-                        new THREE.Vector3(0, 1, 0),
-                        modelTransform.rotateY
-                    );
-                    const rotationZ = new THREE.Matrix4().makeRotationAxis(
-                        new THREE.Vector3(0, 0, 1),
-                        modelTransform.rotateZ
-                    );
-
-                    const m = new THREE.Matrix4().fromArray(matrix);
-                    const l = new THREE.Matrix4()
-                        .makeTranslation(
-                            modelTransform.translateX,
-                            modelTransform.translateY,
-                            modelTransform.translateZ
-                        )
-                        .scale(
-                            new THREE.Vector3(
-                                modelTransform.scale,
-                                -modelTransform.scale,
-                                modelTransform.scale
-                            )
-                        )
-                        .multiply(rotationX)
-                        .multiply(rotationY)
-                        .multiply(rotationZ);
-
-                    this.camera.projectionMatrix = m.multiply(l);
-                    this.renderer.resetState();
-                    this.renderer.render(this.scene, this.camera);
-                    this.map.triggerRepaint();
-                },
-            };
-
-            this.map.on("style.load", () => {
-                this.map.addLayer(customLayer, "waterway-label");
-            });
         },
         //获取位置信息异步函数
         locationFn() {
@@ -335,13 +238,18 @@ export default {
                 }
             });
         },
-        flyToPosition(lon, lat) {
+        flyToPosition: function (lon, lat) {
+            // flyToPosition(lon, lat) {
             this.map.flyTo({
                 center: [this.lon, this.lat], // 中心点
                 zoom: 16.5, // 缩放比例
                 pitch: 45, // 倾斜度
             });
         },
+
+        addmodels(){
+
+        }
     },
 };
 </script>
