@@ -94,8 +94,8 @@ export default {
             // ],
         };
     },
-    mounted:function(){
-      self=this;
+    mounted: function () {
+        self = this;
     },
     computed: {
         longitude() {
@@ -117,7 +117,7 @@ export default {
 
     methods: {
         getData() {
-          let that=this;
+            let that = this;
             axios({
                 //请求方式为get
                 method: "get",
@@ -137,31 +137,23 @@ export default {
             })
                 .then((response) => {
                     this.recommandPlaces = response.data.pois;
-                    console.log(response.data.pois);
+                    // console.log(response.data.pois);
 
                     // 加载 图标
                     let map = Vue.prototype.$map;
                     map.on("load", function (map) {
                         // let that = this;
-                        console.log("地图加载");
-                        // this.addModels();
-                        // Vue.prototype.$map.flyTo({
-                        //     center: [0, 0], // 中心点
-                        //     zoom: 16.5, // 缩放比例
-                        //     pitch: 45, // 倾斜度
-                        // });
-                        if (self.currentMarkers !== null) {
-                            for (
-                                var i = self.currentMarkers.length - 1;
-                                i >= 0;
-                                i--
-                            ) {
-                              self.currentMarkers[i].remove();
-                            }
-                        }
-                        // self.currentMarkers.forEach(function (marker) {
-                        //     marker.remove();
-                        // });
+                        console.log("地图加载完成");
+                        // if (self.currentMarkers !== null) {
+                        //     for (
+                        //         let i = self.currentMarkers.length - 1;i >= 0;i--
+                        //     ) {
+                        //         self.currentMarkers[i].remove();
+                        //     }
+                        // }
+                        self.currentMarkers.forEach(function (marker) {
+                            marker.remove();
+                        });
                         response.data.pois.forEach(function (marker) {
                             const marker_on = new mapboxgl.Marker({
                                 // color: marker.color,
@@ -178,7 +170,7 @@ export default {
                             });
                             const popup = new mapboxgl.Popup({
                                 // anchor: "right",
-                                offset: [0,-15],
+                                offset: [0, -15],
                                 className: "info",
                                 closeButton: false,
                                 closeOnClick: false,

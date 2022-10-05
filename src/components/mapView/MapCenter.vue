@@ -46,6 +46,7 @@ export default {
             .catch((err) => {
                 alert("位置信息获取失败");
             });
+        this.addmodels();
     },
     computed: {
         searchInfo() {
@@ -245,10 +246,9 @@ export default {
         },
 
         addmodels() {
-            let map=Vue.prototype.$map;
+            console.log("加载模型")
             // parameters to ensure the model is georeferenced correctly on the map
-            // 参数，以确保模型在地图上被正确地引用
-            const modelOrigin = [120.1198, 36.006];
+            const modelOrigin = [this.lon, this.lat];
             const modelAltitude = 0;
             const modelRotate = [Math.PI / 2, 0, 0];
 
@@ -259,7 +259,6 @@ export default {
                 );
 
             // transformation parameters to position, rotate and scale the 3D model onto the map
-            // 转换参数，以便在地图上定位、旋转和缩放3D模型
             const modelTransform = {
                 translateX: modelAsMercatorCoordinate.x,
                 translateY: modelAsMercatorCoordinate.y,
@@ -273,8 +272,8 @@ export default {
                 scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
             };
 
-            const THREE = window.THREE;
-
+            // const THREE = window.THREE;
+            const that = this;
             // configuration of the custom layer for a 3D model per the CustomLayerInterface
             const customLayer = {
                 id: "3d-model",
@@ -299,19 +298,14 @@ export default {
 
                     // use the three.js GLTF loader to add the 3D model to the three.js scene
                     // 'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
-                    const loader = new THREE.GLTFLoader();
-                    loader.load(
-                        // './scene.gltf',
-                        "https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf",
-                        (gltf) => {
-                            this.scene.add(gltf.scene);
-                        }
-                    );
-                    this.map = map;
+                    const loader = new GLTFLoader();
+                    loader.load("./models/scene.gltf", (gltf) => {
+                        this.scene.add(gltf.scene);
+                    });
 
                     // use the Mapbox GL JS map canvas for three.js
                     this.renderer = new THREE.WebGLRenderer({
-                        canvas: map.getCanvas(),
+                        canvas: that.map.getCanvas(),
                         context: gl,
                         antialias: true,
                     });
@@ -353,12 +347,12 @@ export default {
                     this.camera.projectionMatrix = m.multiply(l);
                     this.renderer.resetState();
                     this.renderer.render(this.scene, this.camera);
-                    this.map.triggerRepaint();
+                    that.map.triggerRepaint();
                 },
             };
 
-            map.on("style.load", () => {
-                map.addLayer(customLayer, "waterway-label");
+            this.map.on("style.load", () => {
+                this.map.addLayer(customLayer, "waterway-label");
             });
         },
     },
