@@ -45,7 +45,7 @@ export default {
         this.$store.getters.currentLongitude; /*120.3572;*/
       const currentLatitude = this.$store.getters.currentLatitude; //36.101;
       const res = await axios.get(
-        `https://restapi.amap.com/v5/place/around?key=df295ed980114633d24f5f186651247b&keywords=${this.value}&location=${currentLongitude},${currentLatitude}&radius=3000&page_size=20&page_num=1`
+        `https://restapi.amap.com/v5/place/around?key=df295ed980114633d24f5f186651247b&keywords=${this.value}&location=${currentLongitude},${currentLatitude}&radius=10000&page_size=20&page_num=1`
       );
       this.pois = res.data.pois;
     }, 500),

@@ -17,7 +17,7 @@ import '@/assets/css/reset.css'
 import animated from 'animate.css'
 
 Vue.use(animated)
-
+Vue.prototype.$map = '';
 
 import store from './store/index'
 Vue.use(store)
