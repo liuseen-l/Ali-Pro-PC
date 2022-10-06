@@ -166,6 +166,7 @@ export default {
 
                             const el = marker_on.getElement();
                             el.addEventListener("click", () => {
+                                console.log(marker)
                                 window.alert(marker.name);
                             });
                             const popup = new mapboxgl.Popup({
