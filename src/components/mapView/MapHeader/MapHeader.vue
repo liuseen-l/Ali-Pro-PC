@@ -48,7 +48,7 @@ export default {
   .left {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
   }
 
   .center {
