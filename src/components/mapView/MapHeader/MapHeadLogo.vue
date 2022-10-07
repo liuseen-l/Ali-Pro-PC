@@ -13,7 +13,8 @@ export default {
 <style lang="less">
 #logo-contianer {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
+  padding-left: 80px;
   align-items: center;
   margin: 5px 0;
 
