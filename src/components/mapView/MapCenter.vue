@@ -104,6 +104,12 @@ export default {
                   defaultLanguage: "zh-Hans",
               })
           );
+          this.map.addControl(
+                new mapboxgl.AttributionControl({
+                    compact: true,
+                    customAttribution: "仅用于内部学习",
+                })
+            );
           // 全屏按钮
           this.map.addControl(new mapboxgl.FullscreenControl());
           // 地图定位控件
