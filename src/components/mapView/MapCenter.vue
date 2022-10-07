@@ -3,18 +3,23 @@
     <pre id="location">经纬度：{{ mouseLon + "," + mouseLat }}</pre>
   </div>
 </template>
-
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+<script src="https://unpkg.com/three@0.126.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
+import Vue from "vue";
 import mapboxgl from "mapbox-gl";
 import MapboxLanguage from "@mapbox/mapbox-gl-language";
+import * as THREE from "three"; //引入Threejs
+
 import {
   MapboxStyleDefinition,
   MapboxStyleSwitcherControl,
 } from "mapbox-gl-style-switcher";
 import "mapbox-gl-style-switcher/styles.css";
 // import { tSObjectKeyword } from "@babel/types";
-import * as THREE from "three";
-import { Threebox } from "threebox-map";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 export default {
   name: "MapCenter",
   props: {
@@ -23,18 +28,24 @@ export default {
   data() {
     return {
       map: "", //地图
-      lon: "120", //用户经度
-      lat: "36", //用户纬度
+      lon: "120.1187", //用户经度
+      lat: "36.0035", //用户纬度
       mouseLon: "120", //鼠标经度
       mouseLat: "36", //鼠标纬度
+      searchLayer: null, //搜索的点图层
     };
   },
+
   mounted() {
     this.initMap();
+    this.setBuild();
+    this.flyToPosition(this.lon, this.lat);
 
     this.locationFn()
       .then((res) => {
-        // setTimeout(function(){alert("shjs")},1000)
+        // setTimeout(function(){
+        // this.flyToPosition(this.lon, this.lat);
+        // },1000)
         this.flyToPosition(this.lon, this.lat);
         this.$store.commit("SET_LONGITUDE", this.lon);
         this.$store.commit("SET_LATITUDE", this.lat);
@@ -43,17 +54,39 @@ export default {
         alert("位置信息获取失败");
       });
   },
-
+  computed: {
+    searchInfo() {
+      console.log(this.$store.getters.searchInfo);
+      let lon = this.$store.getters.searchInfo.longitude;
+      let lat = this.$store.getters.searchInfo.latitude;
+      // this.flyToPosition(lon, lat);
+      return this.$store.getters.searchInfo;
+    },
+  },
+  watch: {
+    searchInfo(n, o) {
+      let lon = this.$store.getters.searchInfo.longitude;
+      let lat = this.$store.getters.searchInfo.latitude;
+      this.$store.commit("SET_LONGITUDE", lon);
+      this.$store.commit("SET_LATITUDE", lat);
+      this.map.flyTo({
+        center: [lon, lat], // 中心点
+        zoom: 16.5, // 缩放比例
+        pitch: 45, // 倾斜度
+      });
+    },
+  },
   methods: {
     //初始化地图
     initMap: function () {
+      // var map = this.map;
       // let that = this;
       mapboxgl.accessToken =
         "pk.eyJ1Ijoiemh1cWlxaTEyMyIsImEiOiJjbDZwdThzOTkwNzd6M2JvODd4eXN0NXdrIn0.G6_v-vFX1Atl8tHwkKLLFQ";
       this.map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/zhuqiqi123/cl8k6g97m000b14mnjt8341ig",
-        center: [120.116, 36],
+        center: [120.1187, 36.0035],
         // center: [116.34, 39.88],
         zoom: 2,
         // pitch: 60, //地图的角度，不写默认是0，取值是0-60度
@@ -62,6 +95,7 @@ export default {
         attributionControl: false,
         projection: "globe", //地图投影
       });
+
       // //设置中文
       mapboxgl.setRTLTextPlugin(
         "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"
@@ -71,6 +105,8 @@ export default {
           defaultLanguage: "zh-Hans",
         })
       );
+      // 全屏按钮
+      this.map.addControl(new mapboxgl.FullscreenControl());
       // 地图定位控件
       this.map.addControl(
         new mapboxgl.GeolocateControl({
@@ -83,9 +119,11 @@ export default {
           showUserHeading: true,
         })
       );
+      Vue.prototype.$map = this.map;
       //加入缩放控件
       var nav = new mapboxgl.NavigationControl();
       this.map.addControl(nav, "top-left");
+
       // //去除mapbox logo
       // this.map._logoControl &&
       //     this.map.removeControl(this.map._logoControl);
@@ -154,34 +192,113 @@ export default {
         unit: "metric",
       });
       this.map.addControl(scale, "bottom-left");
+    },
+    setBuild() {
+      // parameters to ensure the model is georeferenced correctly on the map
+      // const modelOrigin = [120.1191366986115, 36.00159849516021];
+      const modelOrigin = [this.lon, this.lat];
+      const modelAltitude = 50;
+      const modelRotate = [Math.PI / 2, 0, 0];
 
-      // let tb = null;
-      // window.THREE = THREE;
-      // this.map.on("style.load", function () {
-      //     this.map.addLayer({
-      //         id: "custom_layer",
-      //         type: "custom",
-      //         renderingMode: "3d",
-      //         onAdd: function (map, mbxContext) {
-      //             window.tb = new Threebox(map, mbxContext, {
-      //                 defaultLights: true,
-      //             });
-      //             // 从外部导入obj文件，其大小扩大10倍
-      //             var options = {
-      //                 obj: "./models/girls.obj",
-      //                 mtl: "./models/girls.mtl",
-      //                 scale: 10,
-      //             };
-      //             tb.loadObj(options, function (model) {
-      //                 let truck = model.setCoords(origin);
-      //                 tb.add(truck);
-      //             });
-      //         },
-      //         render: function (gl, matrix) {
-      //             tb.update();
-      //         },
-      //     });
-      // });
+      const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
+        modelOrigin,
+        modelAltitude
+      );
+
+      // transformation parameters to position, rotate and scale the 3D model onto the map
+      const modelTransform = {
+        translateX: modelAsMercatorCoordinate.x,
+        translateY: modelAsMercatorCoordinate.y,
+        translateZ: modelAsMercatorCoordinate.z,
+        rotateX: modelRotate[0],
+        rotateY: modelRotate[1],
+        rotateZ: modelRotate[2],
+        /* Since the 3D model is in real world meters, a scale transform needs to be
+         * applied since the CustomLayerInterface expects units in MercatorCoordinates.
+         */
+        scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
+      };
+
+      // configuration of the custom layer for a 3D model per the CustomLayerInterface
+      const customLayer = {
+        id: "3d-model",
+        type: "custom",
+        renderingMode: "3d",
+        onAdd: function (map, gl) {
+          this.camera = new THREE.Camera();
+          this.scene = new THREE.Scene();
+
+          // create two three.js lights to illuminate the model
+          const directionalLight = new THREE.DirectionalLight(0xffffff);
+          directionalLight.position.set(0, -70, 100).normalize();
+          this.scene.add(directionalLight);
+
+          const directionalLight2 = new THREE.DirectionalLight(0xffffff);
+          directionalLight2.position.set(0, 70, 100).normalize();
+          this.scene.add(directionalLight2);
+
+          // use the three.js GLTF loader to add the 3D model to the three.js scene
+          const loader = new GLTFLoader();
+          loader.load(
+            // "./models/scene.gltf",
+            "https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf",
+            (gltf) => {
+              this.scene.add(gltf.scene);
+            }
+          );
+          this.map = map;
+
+          // use the Mapbox GL JS map canvas for three.js
+          this.renderer = new THREE.WebGLRenderer({
+            canvas: map.getCanvas(),
+            context: gl,
+            antialias: true,
+          });
+
+          this.renderer.autoClear = false;
+        },
+        render: function (gl, matrix) {
+          const rotationX = new THREE.Matrix4().makeRotationAxis(
+            new THREE.Vector3(1, 0, 0),
+            modelTransform.rotateX
+          );
+          const rotationY = new THREE.Matrix4().makeRotationAxis(
+            new THREE.Vector3(0, 1, 0),
+            modelTransform.rotateY
+          );
+          const rotationZ = new THREE.Matrix4().makeRotationAxis(
+            new THREE.Vector3(0, 0, 1),
+            modelTransform.rotateZ
+          );
+
+          const m = new THREE.Matrix4().fromArray(matrix);
+          const l = new THREE.Matrix4()
+            .makeTranslation(
+              modelTransform.translateX,
+              modelTransform.translateY,
+              modelTransform.translateZ
+            )
+            .scale(
+              new THREE.Vector3(
+                modelTransform.scale,
+                -modelTransform.scale,
+                modelTransform.scale
+              )
+            )
+            .multiply(rotationX)
+            .multiply(rotationY)
+            .multiply(rotationZ);
+
+          this.camera.projectionMatrix = m.multiply(l);
+          this.renderer.resetState();
+          this.renderer.render(this.scene, this.camera);
+          this.map.triggerRepaint();
+        },
+      };
+
+      this.map.on("style.load", () => {
+        this.map.addLayer(customLayer, "waterway-label");
+      });
     },
     //获取位置信息异步函数
     locationFn() {
@@ -227,7 +344,8 @@ export default {
         }
       });
     },
-    flyToPosition(lon, lat) {
+    flyToPosition: function (lon, lat) {
+      // flyToPosition(lon, lat) {
       this.map.flyTo({
         center: [this.lon, this.lat], // 中心点
         zoom: 16.5, // 缩放比例
