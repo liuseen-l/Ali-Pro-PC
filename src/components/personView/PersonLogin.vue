@@ -50,14 +50,14 @@
           />
         </div>
 
-        <transition enter-active-class="animate__animated animate__headShake">
-          <div
-            v-show="(usernameError && username.length === 0) || phoneError"
-            class="login-input-error"
-          >
-            {{ news1 }}
-          </div>
-        </transition>
+        <!-- <transition enter-active-class="animate__animated animate__headShake"> -->
+        <div
+          v-show="(usernameError && username.length === 0) || phoneError"
+          class="login-input-error"
+        >
+          {{ news1 }}
+        </div>
+        <!-- </transition> -->
       </div>
       <!-- 密码输入框 -->
       <div class="login-input">
@@ -91,14 +91,14 @@
           </div>
         </template>
 
-        <transition enter-active-class="animate__animated animate__headShake">
-          <div
-            v-show="passwordError && password.length === 0"
-            class="login-input-error"
-          >
-            {{ news2 }}
-          </div>
-        </transition>
+        <!-- <transition enter-active-class="animate__animated animate__headShake"> -->
+        <div
+          v-show="passwordError && password.length === 0"
+          class="login-input-error"
+        >
+          {{ news2 }}
+        </div>
+        <!-- </transition> -->
       </div>
 
       <!-- 记住密码 -->

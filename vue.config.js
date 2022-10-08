@@ -6,4 +6,5 @@ module.exports = defineConfig({
     host: 'localhost',
     open: true,
   },
+  publicPath: './'
 })
