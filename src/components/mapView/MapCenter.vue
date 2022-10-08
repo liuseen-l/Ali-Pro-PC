@@ -40,7 +40,6 @@ export default {
     this.initMap();
     this.setBuild();
     this.flyToPosition(this.lon, this.lat);
-
     this.locationFn()
       .then((res) => {
         // setTimeout(function(){
@@ -103,6 +102,12 @@ export default {
       this.map.addControl(
         new MapboxLanguage({
           defaultLanguage: "zh-Hans",
+        })
+      );
+      this.map.addControl(
+        new mapboxgl.AttributionControl({
+          compact: true,
+          customAttribution: "仅用于内部学习",
         })
       );
       // 全屏按钮
