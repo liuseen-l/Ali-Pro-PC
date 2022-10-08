@@ -19,9 +19,8 @@
 </template>
 
 <script>
-const webSocket = new WebSocket("ws://localhost:3001");
+const webSocket = new WebSocket("ws://localhost:5500");
 export default {
-  props: ["nameProp"],
   data() {
     return {
       textarea: "",
@@ -35,8 +34,11 @@ export default {
   computed: {
     //获取聊天信息，监听数据变化
     theChatRoom: function () {
-      return this.$store.state.chat.theChatRoom;
+      return this.$store.getters.theChatRoom;
     },
+    OpenChat: function () {
+      return this.$store.getters.openChat;
+    }
   },
   methods: {
     send() {
@@ -60,7 +62,7 @@ export default {
       const send_message = document.getElementById("chat_middle_item");
       let theChatRoom = this.theChatRoom;
       let username = this.username;
-      let roomId = this.roomId;
+      let roomId = this.OpenChat.roomId;
       let roomArrayIndexOf = -1;
       let current_room_information = {};
       let usernameIndexOf = -1;
@@ -138,7 +140,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.nameProp);
     this.self_message();
     webSocket.addEventListener("open", this.handleWsOpen(), false);
     webSocket.addEventListener("close", this.handleWsClose(), false);

@@ -68,7 +68,6 @@ export default {
   },
   data() {
     return {
-      tab: 1,
       currentMarkers: [],
       recommandPlaces: [],
     };
@@ -84,6 +83,9 @@ export default {
     latitude() {
       return this.$store.getters.currentLatitude;
     },
+    tab(){
+      return this.$store.getters.Tab;
+    }
   },
   watch: {
     longitude() {
@@ -183,11 +185,11 @@ export default {
         });
     },
     showRestaurants() {
-      this.tab = 1;
+      this.$store.commit("SET_TAB", 1);
       this.getRestaurants();
     },
     showScenery() {
-      this.tab = 2;
+      this.$store.commit("SET_TAB", 2);
       this.getScenery();
     },
     showChat() {
