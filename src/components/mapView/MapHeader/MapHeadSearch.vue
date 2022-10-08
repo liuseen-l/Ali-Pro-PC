@@ -61,6 +61,7 @@ export default {
       };
       this.$store.commit("SET_SEARCHIFO", searchInfo);
       this.pois = [];
+      this.value = adname;
     },
     clearInputValue() {
       this.value = "";
