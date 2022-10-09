@@ -78,7 +78,7 @@ export default {
           });
           /* 你的逻辑代码 */
           this.userMarker = new mapboxgl.Marker({
-              draggable: true,
+              // draggable: true,
               color:"#DC143C"
           })
               .setLngLat([lon, lat]) //添加marker的初始化点
