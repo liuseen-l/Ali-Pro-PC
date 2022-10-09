@@ -98,6 +98,7 @@ export default {
 
   methods: {
     getRestaurants() {
+      var _this=this;
       axios({
         //请求方式为get
         method: "get",
@@ -122,7 +123,7 @@ export default {
           let map = Vue.prototype.$map;
           map.on("load", function (map) {
             // let that = this;
-            console.log("地图加载完成");
+            // console.log("地图加载完成");
             self.currentMarkers.forEach(function (marker) {
               marker.remove();
             });
@@ -138,7 +139,8 @@ export default {
 
               const el = marker_on.getElement();
               el.addEventListener("click", () => {
-                window.alert(marker.name);
+                // window.alert(marker.name);
+                _this.showChat()
               });
               const popup = new mapboxgl.Popup({
                 // anchor: "right",
@@ -193,6 +195,8 @@ export default {
       this.getScenery();
     },
     showChat() {
+      console.log("切换到聊天栏")
+      this.$store.commit("SET_TAB", 3);
       this.tab = 3;
     },
   },
