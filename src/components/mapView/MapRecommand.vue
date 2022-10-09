@@ -196,6 +196,7 @@ export default {
     },
     showChat() {
       console.log("切换到聊天栏")
+      this.$store.commit("SET_TAB", 3);
       this.tab = 3;
     },
   },
