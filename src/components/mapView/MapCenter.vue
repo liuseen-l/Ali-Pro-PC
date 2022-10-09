@@ -57,6 +57,7 @@ export default {
             });
     },
     computed: {
+        //监听 搜索栏
         searchInfo() {
             console.log(this.$store.getters.searchInfo);
             let lon = this.$store.getters.searchInfo.longitude;
@@ -64,8 +65,16 @@ export default {
             // this.flyToPosition(lon, lat);
             return this.$store.getters.searchInfo;
         },
+        // //监听 用户点击
+        // longitude() {
+        //     return this.$store.getters.currentLongitude;
+        // },
+        // latitude() {
+        //     return this.$store.getters.currentLatitude;
+        // },
     },
     watch: {
+        //监听 搜索栏
         searchInfo(n, o) {
             let lon = this.$store.getters.searchInfo.longitude;
             let lat = this.$store.getters.searchInfo.latitude;
@@ -79,11 +88,17 @@ export default {
             /* 你的逻辑代码 */
             this.userMarker = new mapboxgl.Marker({
                 draggable: true,
-                color:"#DC143C"
+                color: "#DC143C",
             })
                 .setLngLat([lon, lat]) //添加marker的初始化点
                 .addTo(this.map); //在哪个地图中添加
         },
+        //监听 用户点击
+        // longitude() {
+        //      this.getRestaurants();
+        // },
+        // latitude() {
+        // },
     },
     methods: {
         //初始化地图
