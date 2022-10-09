@@ -86,6 +86,10 @@ export default {
         tab() {
             return this.$store.getters.Tab;
         },
+            //获取聊天信息，监听数据变化
+        theChatRoom: function () {
+        return this.$store.getters.theChatRoom;
+        }
     },
     watch: {
         longitude() {
@@ -160,10 +164,39 @@ export default {
             this.$store.commit("SET_TAB", 2);
             this.getScenery();
         },
-        showChat() {
+        showChat(sname) {
             console.log("切换到聊天栏");
-            this.$store.commit("SET_TAB", 3);
-            this.tab = 3;
+            let chatroom = this.theChatRoom;
+            let name = sname;
+            let localStorageArr = JSON.parse(localStorage.getItem("UserArray"));
+            let username = localStorageArr[0];
+            let indexOF ;
+            chatroom.map((item, index) => {
+                if(item.roomName == name ){
+                item.Members.push({userName:username})
+                this.$store.commit("theChatRoom_add_member",{userName:username},index)
+                this.$store.commit("SET_OPENCHAT",item)
+                indexOF = true
+                }
+            })
+            if(indexOF){
+                this.$store.commit("SET_TAB", 3);
+                return 
+            }else{
+                let data = {
+                    roomId:name,       //聊天室ID
+                    roomName:name,  //聊天室名称
+                //聊天室成员
+                Members:[{
+                userName: username,
+                }],
+                //历史消息
+                Message_history:[]
+            }
+                this.$store.commit("SET_OPENCHAT",data)
+                this.$store.commit("ADD_THECHATROOM", data);
+                this.$store.commit("SET_TAB", 3);
+            }
         },
         addMarker(pois) {
             var _this = this;
@@ -189,8 +222,7 @@ export default {
 
                     const el = marker_on.getElement();
                     el.addEventListener("click", () => {
-                        // window.alert(marker.name);
-                        self.showChat();
+                        self.showChat(marker.name);
                     });
                     const popup = new mapboxgl.Popup({
                         // anchor: "right",
