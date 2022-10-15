@@ -45,7 +45,7 @@
                         </map-recommand-card>
                     </el-scrollbar>
                 </div>
-                <div v-else-if="tab == 3" class="recommand-list">
+                <div v-else-if="tab == 3" class="recommand-list" style="padding:0;">
                     <MapChetRoom />
                 </div>
             </div>

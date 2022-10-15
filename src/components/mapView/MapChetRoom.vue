@@ -1,5 +1,6 @@
 <template>
   <div class="CheatRoom">
+    <div class="top">{{OpenChat.roomId}}</div>
     <div class="chat_middle" id="chat_middle_item"></div>
     <!-- 输入框 -->
     <div class="infoBottom">
@@ -29,6 +30,7 @@ export default {
       roomArrayIndexOf: -1,
       msgArray: [],
       url: "",
+      topName:''
     };
   },
   computed: {
@@ -71,6 +73,7 @@ export default {
           roomArrayIndexOf = index;
           this.roomArrayIndexOf = index;
           current_room_information = { ...item };
+          this.topName = current_room_information.roodId
         }
       });
       if (roomArrayIndexOf > -1) {
@@ -83,6 +86,7 @@ export default {
         return;
       }
       if (usernameIndexOf > -1) {
+       
         current_room_information.Message_history.map((item, index) => {
           if (item.send_user == username) {
             const oLi = document.createElement("div");
@@ -192,11 +196,22 @@ export default {
 </script>
 
 <style>
+
 .CheatRoom {
   padding: 0;
   margin: 0;
   font-family: Consolas, Microsoft YaHei UI, serif;
   font-size: 16px;
+}
+.top{
+  width: 100%;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  color:#ffff;  font-family: Consolas, Microsoft YaHei UI, serif;
+  background: url("~@/assets/images/top.png") no-repeat;
+  background-position: center;
+  background-size: 98% 98%;
 }
 @keyframes fadeIn {
   0% {
