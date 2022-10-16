@@ -2,7 +2,7 @@
  * @Author: croy 
  * @Date: 2022-10-01 12:16:27
  * @LastEditors: croy 
- * @LastEditTime: 2022-10-01 18:05:02
+ * @LastEditTime: 2022-10-08 23:37:40
  * @FilePath: /Ali-Pro-PC/serve/index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -11,7 +11,7 @@ const Ws = require('ws');
 let clients = []
 let init_server = function (Ws) {
   const server = new Ws.Server({
-    port: 3001
+    port: 5500
   });
   const init = () => {
     bindEvent();

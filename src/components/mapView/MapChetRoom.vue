@@ -1,5 +1,6 @@
 <template>
   <div class="CheatRoom">
+    <div class="top">{{OpenChat.roomId}}</div>
     <div class="chat_middle" id="chat_middle_item"></div>
     <!-- 输入框 -->
     <div class="infoBottom">
@@ -19,9 +20,8 @@
 </template>
 
 <script>
-const webSocket = new WebSocket("ws://localhost:3001");
+const webSocket = new WebSocket("ws://localhost:5500");
 export default {
-  props: ["nameProp"],
   data() {
     return {
       textarea: "",
@@ -30,13 +30,17 @@ export default {
       roomArrayIndexOf: -1,
       msgArray: [],
       url: "",
+      topName:''
     };
   },
   computed: {
     //获取聊天信息，监听数据变化
     theChatRoom: function () {
-      return this.$store.state.chat.theChatRoom;
+      return this.$store.getters.theChatRoom;
     },
+    OpenChat: function () {
+      return this.$store.getters.openChat;
+    }
   },
   methods: {
     send() {
@@ -60,7 +64,7 @@ export default {
       const send_message = document.getElementById("chat_middle_item");
       let theChatRoom = this.theChatRoom;
       let username = this.username;
-      let roomId = this.roomId;
+      let roomId = this.OpenChat.roomId;
       let roomArrayIndexOf = -1;
       let current_room_information = {};
       let usernameIndexOf = -1;
@@ -69,6 +73,7 @@ export default {
           roomArrayIndexOf = index;
           this.roomArrayIndexOf = index;
           current_room_information = { ...item };
+          this.topName = current_room_information.roodId
         }
       });
       if (roomArrayIndexOf > -1) {
@@ -81,6 +86,7 @@ export default {
         return;
       }
       if (usernameIndexOf > -1) {
+       
         current_room_information.Message_history.map((item, index) => {
           if (item.send_user == username) {
             const oLi = document.createElement("div");
@@ -138,7 +144,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.nameProp);
     this.self_message();
     webSocket.addEventListener("open", this.handleWsOpen(), false);
     webSocket.addEventListener("close", this.handleWsClose(), false);
@@ -191,11 +196,22 @@ export default {
 </script>
 
 <style>
+
 .CheatRoom {
   padding: 0;
   margin: 0;
   font-family: Consolas, Microsoft YaHei UI, serif;
   font-size: 16px;
+}
+.top{
+  width: 100%;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  color:#ffff;  font-family: Consolas, Microsoft YaHei UI, serif;
+  background: url("~@/assets/images/top.png") no-repeat;
+  background-position: center;
+  background-size: 98% 98%;
 }
 @keyframes fadeIn {
   0% {

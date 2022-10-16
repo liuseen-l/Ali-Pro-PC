@@ -1,5 +1,5 @@
 <template>
-  <div class="map-recommand-card">
+  <div class="map-recommand-card" @click="chat">
     <div class="recommand-item">
       <div class="item-left">
         <div class="recommand-img">
@@ -103,7 +103,12 @@ export default {
   },
 
   mounted() {},
-
+  computed: {
+    //获取聊天信息，监听数据变化
+    theChatRoom: function () {
+      return this.$store.getters.theChatRoom;
+    }
+  },
   methods: {
     // 当地址过长时显示提示
     locationMouseOver(name) {
@@ -111,6 +116,39 @@ export default {
       const parentWidth = tag.parentNode.offsetWidth;
       const contentWidth = tag.offsetWidth;
       this.showTip = contentWidth <= parentWidth;
+    },
+    chat(){
+      let chatroom = this.theChatRoom;
+      let name = this.data.name;
+      let localStorageArr = JSON.parse(localStorage.getItem("UserArray"));
+      let username = localStorageArr[0];
+      let indexOF ;
+      chatroom.map((item, index) => {
+        if(item.roomName == name ){
+          item.Members.push({userName:username})
+          this.$store.commit("theChatRoom_add_member",{userName:username},index)
+          this.$store.commit("SET_OPENCHAT",item)
+          indexOF = true
+        }
+      })
+      if(indexOF){
+        this.$store.commit("SET_TAB", 3);
+        return 
+      }else{
+        let data = {
+            roomId:name,       //聊天室ID
+            roomName:name,  //聊天室名称
+        //聊天室成员
+        Members:[{
+          userName: username,
+        }],
+        //历史消息
+        Message_history:[]
+      }
+        this.$store.commit("SET_OPENCHAT",data)
+        this.$store.commit("ADD_THECHATROOM", data);
+        this.$store.commit("SET_TAB", 3);
+      }
     },
   },
 };

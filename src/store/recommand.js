@@ -3,6 +3,7 @@ export default {
     longitude: null, //经度
     latitude: null, //纬度
     count: 0,
+    tab:1
   },
   getters: {
     currentLongitude(state) {
@@ -11,6 +12,9 @@ export default {
     currentLatitude(state) {
       return state.latitude
     },
+    Tab(state) {
+      return state.tab
+    },
   },
   mutations: {
     SET_LONGITUDE(state, longitude) {
@@ -18,6 +22,9 @@ export default {
     },
     SET_LATITUDE(state, latitude) {
       state.latitude = latitude
+    },
+    SET_TAB(state, tab) {
+      state.tab = tab
     },
   },
 }
