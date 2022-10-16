@@ -233,6 +233,9 @@ export default {
       this.$router.push({
         path: "/map",
       });
+
+      localStorage.setItem('hasLogin', true);
+      localStorage.setItem('username', this.username);
     },
     // 更换登录方式
     changeWay() {

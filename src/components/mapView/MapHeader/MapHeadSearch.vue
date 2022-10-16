@@ -50,7 +50,7 @@ export default {
       this.pois = res.data.pois;
     }, 500),
     updatePosition(item) {
-      const { address, adname, type, location } = item;
+      const { address, adname, type, location, name } = item;
       const [longitude, latitude] = location.split(",");
       const searchInfo = {
         address,
@@ -61,7 +61,7 @@ export default {
       };
       this.$store.commit("SET_SEARCHIFO", searchInfo);
       this.pois = [];
-      this.value = adname;
+      this.value = name;
     },
     clearInputValue() {
       this.value = "";
